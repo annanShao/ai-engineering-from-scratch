@@ -8,7 +8,7 @@
 | 类型 | Build · ~60 分钟 |
 | 前置 | Lesson 01 (Agent Loop) |
 | 关键文件 | `docs/zh.md`、`code/main.py`(toy ReWOO:Planner / Worker / Solver) |
-| 状态 | 🔄 进行中 |
+| 状态 | ✅ 完成(阅读 + 3/3 钩子 + Exercise 2 + 2 金句) |
 
 ---
 
@@ -23,6 +23,11 @@
 |---|---|---|
 | ReAct | LLM 本身就是 router,每步现场决定 | runtime,每步一次 |
 | ReWOO | planner 一次性决定整个 DAG,executor 无脑执行 | plan-time 一次 + 确定性执行 |
+
+### #2 · Plan-and-Execute = ReWOO + "observation 流回 planning"
+> **让 ReWOO 变成 Plan-and-Execute 的最小改动,本质就一行:`plan = replanner.replan(question, plan, evidence)`。原 planner 只吃 question、看不到 observation;replanner 吃 evidence。把 observation 带回规划环节,就是这两个模式的分水岭。**
+
+其余都是脚手架:把一锤子的 `run_workers` 包进"执行 → 查 `error:` → replan → 重执行"的有界 loop(`max_replans` 防无限,对应 Lesson 01 的"只重试一次")。replan 时 replanner 在**完整 plan + 全部 evidence** 的上下文里看错,所以能精准定位翻车的 node 重规划。
 
 ---
 
@@ -62,4 +67,21 @@ Solver:   question, plan, evidence -> answer       (1 次 LLM)
 `python3 code/main.py` → plan(E1→E2→E3 DAG)→ evidence(`#E1` 替换成 Paris)→ solver 组合。toy token 比 1.76x(论文 ~5x,toy 步数少)。
 
 ### Exercise 2 —— 加 replanner,把 ReWOO 变 Plan-and-Execute
-(进行中)
+新增 `ScriptedReplanner`(吃 evidence,返回修订 plan)+ `run_plan_execute`(把 `run_workers` 包进有界 replan loop)。demo 造一个 E2 用错 kwarg(`q` 而非 `query`)的 broken_plan:
+
+```
+EXECUTE (initial plan)
+  E2 -> error: TypeError: ... unexpected keyword argument 'q'   # 翻车
+  E3 -> unknown                                                  # 级联：拿到 error 字符串就废
+  >> replanner fires (it sees the evidence; planner never did)
+EXECUTE (replan #1)
+  E2 -> 11.2 million metro                                       # 修正后干净
+  E3 -> 11 million
+  >> all clean
+FINAL: ... rounded population is 11 million.
+```
+
+**最小改动的本质 = `replanner.replan(question, plan, evidence)` 把 evidence 流回 planning。**
+**踩到的点:** per-node 失败会向下游**级联**(E2 错 → E3 `unknown`);好在 replanner 在完整 plan+evidence 上下文里能定位到是 E2。`max_replans=1` 防无限 replan。
+
+**提交:** branch `claude/wonderful-hawking-1247L`。

@@ -22,4 +22,5 @@ learning-notes/
 | Phase | Lesson | 状态 |
 |---|---|---|
 | 14 · Agent Engineering | 01 · The Agent Loop | ✅ 完成(阅读 + 4/4 评估 + Exercise 3 + 5 金句) |
-| 14 · Agent Engineering | 02 · ReWOO / Plan-and-Execute | ⏭ 下一站 |
+| 14 · Agent Engineering | 02 · ReWOO / Plan-and-Execute | ✅ 完成(阅读 + Exercise 2 + 2 金句) |
+| 14 · Agent Engineering | 03 · Reflexion / Verbal RL | ⏭ 下一站 |
