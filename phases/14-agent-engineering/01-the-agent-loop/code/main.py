@@ -145,7 +145,7 @@ def build_demo_agent() -> AgentLoop:
 
     script: list[dict[str, Any]] = [
         {"kind": "action", "thought": "store the base price",
-         "action": "kv_set", "args": {"key": "base", "value": "120"}},
+         "action": "kv_set", "args": {"key": "base"}},
         {"kind": "action", "thought": "compute 15% tax",
          "action": "calculator", "args": {"expr": "120 * 0.15"}},
         {"kind": "action", "thought": "store the tax",
