@@ -8,7 +8,7 @@
 | 类型 | Build · ~75 分钟 |
 | 前置 | Lesson 01 (Agent Loop)、Lesson 03 (Reflexion) |
 | 关键文件 | `docs/zh.md`、`code/main.py`(ToT BFS + toy LATS MCTS) |
-| 状态 | 🔄 进行中(阅读前概念铺垫) |
+| 状态 | ✅ 完成(阅读 + MCTS 概念深挖 + 代码走读 + 3 金句) |
 
 ---
 
@@ -68,10 +68,40 @@
 
 ## 关键概念地图
 
-(待补)
+**把推理框定为搜索:** node=thought,edge=expansion,value=有多 promising。CoT 是单分支(线性),ToT 泛化成树(分叉+剪枝+回溯)。`CoT ⊂ ToT`。
+
+**ToT(Yao 2023):** 每 node 自评(`sure/likely/impossible` / `1..10` / 投票),BFS/DFS/beam 探索。Game of 24:CoT 4% → ToT 74%(GPT-4)。
+
+**LATS = Language Agent Tree Search(Zhou 2024):** MCTS 骨架 + ToT 自评 + ReAct 提议 + Reflexion 反思,四样缝合。LLM 演三角色:Policy(提候选)/ Value function(打分)/ Self-reflector(失败写反思 reseed)。HumanEval pass@1 92.7%。
+
+**MCTS = Monte Carlo Tree Search:** 通用决策搜索,最出名应用 AlphaGo。四步/迭代:
+1. Select —— 用 UCT 从 root 走到 leaf
+2. Expand —— 生成 K 子节点
+3. Simulate —— 随机 rollout 到底,用 value function 打分(蒙特卡洛=随机模拟取平均)
+4. Backpropagate —— reward 沿路径上传,更新 N 和 Q
+`Q(s,a) = 累计回传 reward / 访问次数 N`。
+
+**UCT = Upper Confidence bounds applied to Trees。** 血脉:Multi-Armed Bandit(探索-利用困境)→ UCB1(Auer 2002,乐观面对不确定性)→ UCT(Kocsis & Szepesvári 2006,把 UCB1 递归套到树每层)。公式 `Q + c·√(lnN(s)/N(s,a))`:第一项 exploitation,第二项 exploration,`c` 是探索旋钮。
+
+**value function 是搜索的天花板:** Q 是统计出来的平均,但每次模拟的原始分必须由 value function(或环境 reward)给。三种来源:环境 ground truth(最强)/ 学出的 value network / LLM self-eval(弱,可能让 MCTS 自信收敛到"高分错答案")。→ 这就是 ToT/LATS 只在"有便宜 grounded verifier"小生境(代码+测试)好用的根因。
+
+**成本现实:** 搜索 = CoT 的 100–1000× token。2026 大多数生产 agent 不跑 LATS,只在 coding/deep-research 等有廉价 verifier 处用。
 
 ---
 
 ## 手做记录
 
-(待补)
+### 跑 demo(stdlib,无 LLM,value function 是符号化"离 24 的距离")
+任务:`[4,6,4,1]` 用 +−×÷ 凑 24。
+```
+ToT BFS:   ['6*4=24','4-1=3','24+3=27']  final (27,)  value -0.030  expansions 152
+LATS MCTS: ['6*4=24','24*1=24']          final (24,4) value 0.000    expansions 286
+```
+这组数刁钻,两者都没凑出完美解但都逼近(ToT 落 27 差 3;LATS 落到"手里还攥着 24",非终局最高分 0.0)。`expansions` 152/286 直观量化了搜索的算力代价。
+
+### 代码 → 概念映射(`code/main.py`)
+- `Node.visits/value_sum/q` = N / 累计 / Q(滑动平均)
+- `value()`(line 68) = 符号化 grounded value function(非 self-eval)
+- `mcts()`(line 122) = 四步全在这:select(UCT 下行)/ expand / simulate(`rng.choice` 随机 rollout)/ backprop
+- `uct()`(line 94):未访问子节点返回 `inf` → 强制每个先试一次;`c=1.4` 探索旋钮
+- 关键认知:这 toy 用 grounded 符号 value,所以搜索干净好用;真 LATS 换成 LLM self-eval 就回到"验证质量是天花板"的问题。
