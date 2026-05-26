@@ -25,4 +25,5 @@ learning-notes/
 | 14 · Agent Engineering | 02 · ReWOO / Plan-and-Execute | ✅ 完成(阅读 + Exercise 2 + 2 金句) |
 | 14 · Agent Engineering | 03 · Reflexion / Verbal RL | ✅ 完成(概念深挖 + 5 金句) |
 | 14 · Agent Engineering | 04 · Tree of Thoughts / LATS | ✅ 完成(MCTS 深挖 + 3 金句) |
-| 14 · Agent Engineering | 05 · Self-Refine and CRITIC | ⏭ 下一站 |
+| 14 · Agent Engineering | 05 · Self-Refine and CRITIC | ✅ 完成(CRITIC vs Self-Refine + 3 金句) |
+| 14 · Agent Engineering | 06 · Tool Use and Function Calling | ⏭ 下一站 |
