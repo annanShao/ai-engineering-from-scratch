@@ -28,4 +28,5 @@ learning-notes/
 | 14 · Agent Engineering | 05 · Self-Refine and CRITIC | ✅ 完成(CRITIC vs Self-Refine + 3 金句) |
 | 14 · Agent Engineering | 06 · Tool Use and Function Calling | ✅ 完成(Toolformer/BFCL 深挖 + 代码 + 4 金句) |
 | 14 · Agent Engineering | 07 · Memory / Virtual Context / MemGPT | ✅ 完成(OS 类比 + 4 金句) |
-| 14 · Agent Engineering | 08 · Memory Blocks / Sleep-time Compute | ⏭ 下一站 |
+| 14 · Agent Engineering | 08 · Memory Blocks / Sleep-time Compute | ✅ 完成(三层+sleep-time + 4 金句) |
+| 14 · Agent Engineering | 09 · Hybrid Memory / Mem0 | ⏭ 下一站 |
