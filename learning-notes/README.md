@@ -27,4 +27,5 @@ learning-notes/
 | 14 · Agent Engineering | 04 · Tree of Thoughts / LATS | ✅ 完成(MCTS 深挖 + 3 金句) |
 | 14 · Agent Engineering | 05 · Self-Refine and CRITIC | ✅ 完成(CRITIC vs Self-Refine + 3 金句) |
 | 14 · Agent Engineering | 06 · Tool Use and Function Calling | ✅ 完成(Toolformer/BFCL 深挖 + 代码 + 4 金句) |
-| 14 · Agent Engineering | 07 · Memory / Virtual Context / MemGPT | ⏭ 下一站 |
+| 14 · Agent Engineering | 07 · Memory / Virtual Context / MemGPT | ✅ 完成(OS 类比 + 4 金句) |
+| 14 · Agent Engineering | 08 · Memory Blocks / Sleep-time Compute | ⏭ 下一站 |
