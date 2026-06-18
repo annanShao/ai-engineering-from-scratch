@@ -30,4 +30,9 @@ learning-notes/
 | 14 · Agent Engineering | 07 · Memory / Virtual Context / MemGPT | ✅ 完成(OS 类比 + 4 金句) |
 | 14 · Agent Engineering | 08 · Memory Blocks / Sleep-time Compute | ✅ 完成(三层+sleep-time + 4 金句) |
 | 14 · Agent Engineering | 09 · Hybrid Memory / Mem0 | ✅ 完成(两层融合 + 4 金句) |
-| 14 · Agent Engineering | 10 · Skill Libraries / Voyager | ⏭ 下一站 |
+| 14 · Agent Engineering | 10 · Skill Libraries / Voyager | ✅ 完成(lifelong learning 飞轮 + 5 金句) |
+| 14 · Agent Engineering | 11 · AlphaEvolve / Evolutionary Code Search | ⏭ 下一站 |
+
+## 里程碑
+
+- **Phase 14: 10/42 完成** —— 建议跑 `/check-understanding 14` 体检
