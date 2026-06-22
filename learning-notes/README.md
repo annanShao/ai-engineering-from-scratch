@@ -34,8 +34,9 @@ learning-notes/
 | 14 · Agent Engineering | 11 · Planning: HTN and Evolutionary | ✅ 完成(HTN/ChatHTN + AlphaEvolve/MAP-Elites + loop-engineering 跨框架综合 + 3/3 体检 + 6 金句) |
 | 14 · Agent Engineering | 12 · Anthropic Workflow Patterns | ✅ 完成(5 模式光谱 + 决策透镜 + "反向到达"元收获 + 3/3 体检 + 5 金句) |
 | 14 · Agent Engineering | 13 · LangGraph / Stateful Graphs | ✅ 完成(graph 四零件 + durable execution + supervisor vs tool-call 派 + checkpoint 翻车 4 例 + 3/3 体检 + 5 金句) |
-| 14 · Agent Engineering | 14 · AutoGen / Actor Model | ⏭ 下一站 |
+| 14 · Agent Engineering | 14 · AutoGen / Actor Model | ✅ 完成(换尺子时刻 + actor 三原语 + 一戒律三奢侈品 + DLQ 补刀 + 3/3 体检 + 4 金句) |
+| 14 · Agent Engineering | 15 · CrewAI / Role-based Crews | ⏭ 下一站 |
 
 ## 里程碑
 
-- **Phase 14: 13/42 完成** —— L13 把 L12 的 taste 落到第一个工业级框架;接下来 L14 换尺子(actor 模型 vs graph 模型,两种并发世界观)
+- **Phase 14: 14/42 完成** —— L13(流程可靠性)+ L14(组织弹性)= Phase 14 工程双柱已立;后续框架课带着这两根柱子 + L12 尺子去对照
