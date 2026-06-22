@@ -32,8 +32,9 @@ learning-notes/
 | 14 · Agent Engineering | 09 · Hybrid Memory / Mem0 | ✅ 完成(两层融合 + 4 金句) |
 | 14 · Agent Engineering | 10 · Skill Libraries / Voyager | ✅ 完成(lifelong learning 飞轮 + 5 金句) |
 | 14 · Agent Engineering | 11 · Planning: HTN and Evolutionary | ✅ 完成(HTN/ChatHTN + AlphaEvolve/MAP-Elites + loop-engineering 跨框架综合 + 3/3 体检 + 6 金句) |
-| 14 · Agent Engineering | 12 · Anthropic Workflow Patterns | ⏭ 下一站 |
+| 14 · Agent Engineering | 12 · Anthropic Workflow Patterns | ✅ 完成(5 模式光谱 + 决策透镜 + "反向到达"元收获 + 3/3 体检 + 5 金句) |
+| 14 · Agent Engineering | 13 · LangGraph / Stateful Graphs | ⏭ 下一站 |
 
 ## 里程碑
 
-- **Phase 14: 11/42 完成** —— L11 把 LLM-in-the-loop 元范式从口号挖到 MAP-Elites 算法零件;建议适时 `/check-understanding 14` 复测
+- **Phase 14: 12/42 完成** —— L12 是 taste 分水岭,以"谁拥有控制流图"这把尺子准备进 L13–L18 的六个框架课
