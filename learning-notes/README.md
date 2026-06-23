@@ -36,8 +36,9 @@ learning-notes/
 | 14 · Agent Engineering | 13 · LangGraph / Stateful Graphs | ✅ 完成(graph 四零件 + durable execution + supervisor vs tool-call 派 + checkpoint 翻车 4 例 + 3/3 体检 + 5 金句) |
 | 14 · Agent Engineering | 14 · AutoGen / Actor Model | ✅ 完成(换尺子时刻 + actor 三原语 + 一戒律三奢侈品 + DLQ 补刀 + 3/3 体检 + 4 金句) |
 | 14 · Agent Engineering | 15 · CrewAI / Role-based Crews | ✅ 完成(4 原语 + Crew vs Flow 双形态 + Hierarchical = supervisor 同构 + LangGraph node 对比 + Flow+Crew 真代码示例 + 3/3 体检 + 6 金句) |
-| 14 · Agent Engineering | 16 · OpenAI Agents SDK | ⏭ 下一站 |
+| 14 · Agent Engineering | 16 · OpenAI Agents SDK | ✅ 完成(5 原语 + Handoff=tool 机制深挖 + Guardrails 真能防什么诚实评估 + defense-in-depth 5 层 + 3/3 体检 + 6 金句) |
+| 14 · Agent Engineering | 17 · Claude Agent SDK | ⏭ 下一站 |
 
 ## 里程碑
 
-- **Phase 14: 15/42 完成** —— L15 是第一个把 L12 二分法做进 SDK 表面的框架(Crew vs Flow);L13/14/15 三家对比已沉淀出"看穿营销层"的肌肉,L16 OpenAI SDK 再升一档
+- **Phase 14: 16/42 完成** —— L13/L15/L16 三家"包装哲学"对比已立(state-first / role-first / handoff-first);L16 追问 2 把 L27 prompt injection defense 的钩子拉满,L17 完成四家拼图后可考虑插队过去
