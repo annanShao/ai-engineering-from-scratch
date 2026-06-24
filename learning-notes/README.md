@@ -37,8 +37,9 @@ learning-notes/
 | 14 · Agent Engineering | 14 · AutoGen / Actor Model | ✅ 完成(换尺子时刻 + actor 三原语 + 一戒律三奢侈品 + DLQ 补刀 + 3/3 体检 + 4 金句) |
 | 14 · Agent Engineering | 15 · CrewAI / Role-based Crews | ✅ 完成(4 原语 + Crew vs Flow 双形态 + Hierarchical = supervisor 同构 + LangGraph node 对比 + Flow+Crew 真代码示例 + 3/3 体检 + 6 金句) |
 | 14 · Agent Engineering | 16 · OpenAI Agents SDK | ✅ 完成(5 原语 + Handoff=tool 机制深挖 + Guardrails 真能防什么诚实评估 + defense-in-depth 5 层 + 3/3 体检 + 6 金句) |
-| 14 · Agent Engineering | 17 · Claude Agent SDK | ⏭ 下一站 |
+| 14 · Agent Engineering | 17 · Claude Agent SDK | ✅ 完成(四家光谱收口 + harness-first 哲学 + 5 组件 + Temporal sidebar(durable workflow engine 平行宇宙)+ 3/3 体检 + 4 金句) |
+| 14 · Agent Engineering | 18 · Agno and Mastra Runtimes | ⏭ 下一站 |
 
 ## 里程碑
 
-- **Phase 14: 16/42 完成** —— L13/L15/L16 三家"包装哲学"对比已立(state-first / role-first / handoff-first);L16 追问 2 把 L27 prompt injection defense 的钩子拉满,L17 完成四家拼图后可考虑插队过去
+- **Phase 14: 17/42 完成** —— L13-L17 框架五家光谱完成(state-first / role-first / handoff-first / harness-first + actor 正交);L17 顺手把 Temporal 平行宇宙交代了(agent loop 整体进 workflow engine 是 2026 emerging best practice);L18 收尾框架篇,L19+ 转向"运营"(评测 / observability / security / production)
