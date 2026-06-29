@@ -38,8 +38,9 @@ learning-notes/
 | 14 · Agent Engineering | 15 · CrewAI / Role-based Crews | ✅ 完成(4 原语 + Crew vs Flow 双形态 + Hierarchical = supervisor 同构 + LangGraph node 对比 + Flow+Crew 真代码示例 + 3/3 体检 + 6 金句) |
 | 14 · Agent Engineering | 16 · OpenAI Agents SDK | ✅ 完成(5 原语 + Handoff=tool 机制深挖 + Guardrails 真能防什么诚实评估 + defense-in-depth 5 层 + 3/3 体检 + 6 金句) |
 | 14 · Agent Engineering | 17 · Claude Agent SDK | ✅ 完成(四家光谱收口 + harness-first 哲学 + 5 组件 + Temporal sidebar(durable workflow engine 平行宇宙)+ 3/3 体检 + 4 金句) |
-| 14 · Agent Engineering | 18 · Agno and Mastra Runtimes | ⏭ 下一站 |
+| 14 · Agent Engineering | 18 · Agno and Mastra Runtimes | ✅ 完成(框架篇 coda + 价值分层模型(第 6 把尺子)+ agent loop 内核拆解 + 3/3 体检 + 4 金句) |
+| 14 · Agent Engineering | 19 · Benchmarks: SWE-bench, GAIA | ⏭ 下一站 |
 
 ## 里程碑
 
-- **Phase 14: 17/42 完成** —— L13-L17 框架五家光谱完成(state-first / role-first / handoff-first / harness-first + actor 正交);L17 顺手把 Temporal 平行宇宙交代了(agent loop 整体进 workflow engine 是 2026 emerging best practice);L18 收尾框架篇,L19+ 转向"运营"(评测 / observability / security / production)
+- **Phase 14: 18/42 完成** 🎉 —— **框架篇(L13-L18)全部通关**!五家光谱 + 轻量双煞 + 价值分层 6 层栈。已沉淀 6 把尺子(内化vs外部 / 谁拥有控制流图 / 谁拥有 state / 笼子里装什么 / SDK 收什么进黑盒 / 该爬到栈的哪一层)。L19+ 切到"运营篇"(评测 / observability / security / production)
