@@ -41,8 +41,9 @@ learning-notes/
 | 14 · Agent Engineering | 18 · Agno and Mastra Runtimes | ✅ 完成(框架篇 coda + 价值分层模型(第 6 把尺子)+ agent loop 内核拆解 + 3/3 体检 + 4 金句) |
 | 14 · Agent Engineering | 19 · Benchmarks: SWE-bench, GAIA | ✅ 完成(从造到审的第一步 + 三锚定 benchmark + 污染 + 分布>均值 + 3/3 体检 + 4 金句) |
 | 14 · Agent Engineering | 20 · Benchmarks: WebArena, OSWorld | ✅ 完成(评测另一半:界面操作 + GUI grounding 新失败维度 + 轨迹效率 + 3/3 体检 + 4 金句) |
-| 14 · Agent Engineering | 21 · Computer Use Agents | ⏭ 下一站 |
+| 14 · Agent Engineering | 21 · Computer Use Agents | ✅ 完成(评测→产品闭环 + untrusted input 铁律 + 行动安全 + 5 层防御具体化 + 3/3 体检 + 4 金句) |
+| 14 · Agent Engineering | 27 · Prompt Injection Defense(插队) | ⏭ 下一站(L21 把钩子逼到眼前,趁热插) |
 
 ## 里程碑
 
-- **Phase 14: 20/42 完成** —— 框架篇(L13-L18)+ 评测篇(L19-L20)通关。6 把尺子已立;运营篇进行中,出师考已过(A/C 6.5/7,B 概念全在)。L21 是评测→产品闭环(computer use 产品),L27 安全钩子仍挂
+- **Phase 14: 21/42 完成** —— 框架篇(L13-L18)+ 评测篇(L19-L20)+ computer use(L21)通关。L21 把 untrusted input 讲到骨头,决定破例插队 L27(安全),之后回补 L22-L26。6 把尺子已立,出师考已过
