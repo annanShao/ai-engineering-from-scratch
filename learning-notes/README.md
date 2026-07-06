@@ -39,8 +39,10 @@ learning-notes/
 | 14 · Agent Engineering | 16 · OpenAI Agents SDK | ✅ 完成(5 原语 + Handoff=tool 机制深挖 + Guardrails 真能防什么诚实评估 + defense-in-depth 5 层 + 3/3 体检 + 6 金句) |
 | 14 · Agent Engineering | 17 · Claude Agent SDK | ✅ 完成(四家光谱收口 + harness-first 哲学 + 5 组件 + Temporal sidebar(durable workflow engine 平行宇宙)+ 3/3 体检 + 4 金句) |
 | 14 · Agent Engineering | 18 · Agno and Mastra Runtimes | ✅ 完成(框架篇 coda + 价值分层模型(第 6 把尺子)+ agent loop 内核拆解 + 3/3 体检 + 4 金句) |
-| 14 · Agent Engineering | 19 · Benchmarks: SWE-bench, GAIA | ⏭ 下一站 |
+| 14 · Agent Engineering | 19 · Benchmarks: SWE-bench, GAIA | ✅ 完成(从造到审的第一步 + 三锚定 benchmark + 污染 + 分布>均值 + 3/3 体检 + 4 金句) |
+| 14 · Agent Engineering | 20 · Benchmarks: WebArena, OSWorld | ✅ 完成(评测另一半:界面操作 + GUI grounding 新失败维度 + 轨迹效率 + 3/3 体检 + 4 金句) |
+| 14 · Agent Engineering | 21 · Computer Use Agents | ⏭ 下一站 |
 
 ## 里程碑
 
-- **Phase 14: 18/42 完成** 🎉 —— **框架篇(L13-L18)全部通关**!五家光谱 + 轻量双煞 + 价值分层 6 层栈。已沉淀 6 把尺子(内化vs外部 / 谁拥有控制流图 / 谁拥有 state / 笼子里装什么 / SDK 收什么进黑盒 / 该爬到栈的哪一层)。L19+ 切到"运营篇"(评测 / observability / security / production)
+- **Phase 14: 20/42 完成** —— 框架篇(L13-L18)+ 评测篇(L19-L20)通关。6 把尺子已立;运营篇进行中,出师考已过(A/C 6.5/7,B 概念全在)。L21 是评测→产品闭环(computer use 产品),L27 安全钩子仍挂
