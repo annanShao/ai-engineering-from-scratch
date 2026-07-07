@@ -42,8 +42,8 @@ learning-notes/
 | 14 · Agent Engineering | 19 · Benchmarks: SWE-bench, GAIA | ✅ 完成(从造到审的第一步 + 三锚定 benchmark + 污染 + 分布>均值 + 3/3 体检 + 4 金句) |
 | 14 · Agent Engineering | 20 · Benchmarks: WebArena, OSWorld | ✅ 完成(评测另一半:界面操作 + GUI grounding 新失败维度 + 轨迹效率 + 3/3 体检 + 4 金句) |
 | 14 · Agent Engineering | 21 · Computer Use Agents | ✅ 完成(评测→产品闭环 + untrusted input 铁律 + 行动安全 + 5 层防御具体化 + 3/3 体检 + 4 金句) |
-| 14 · Agent Engineering | 27 · Prompt Injection Defense(插队) | ⏭ 下一站(L21 把钩子逼到眼前,趁热插) |
+| 14 · Agent Engineering | 27 · Prompt Injection Defense(插队) | ✅ 完成(Greshake 攻击理论 + 6 条防御教义 + PVE 架构 + 两轮红队级追问「结构硬/模型软」「锚点搬到动作-意图一致性」+ 免体检直接过) |
 
 ## 里程碑
 
-- **Phase 14: 21/42 完成** —— 框架篇(L13-L18)+ 评测篇(L19-L20)+ computer use(L21)通关。L21 把 untrusted input 讲到骨头,决定破例插队 L27(安全),之后回补 L22-L26。6 把尺子已立,出师考已过
+- **Phase 14: 22/42 完成** —— L27 破例插队完成,安全钩子(从 L16 挂起)彻底摘除。两轮红队级追问已达"设计防御"而非"辨认防御"层次:独立推出 delimiter injection 攻击、推出"结构能保证边界不被伪造但不能保证模型尊重边界"。待回补 L22-L26(Voice/Observability/Multi-agent/Failure modes)。6 把尺子 + 完整 agent 安全模型已立
