@@ -44,8 +44,9 @@ learning-notes/
 | 14 · Agent Engineering | 21 · Computer Use Agents | ✅ 完成(评测→产品闭环 + untrusted input 铁律 + 行动安全 + 5 层防御具体化 + 3/3 体检 + 4 金句) |
 | 14 · Agent Engineering | 27 · Prompt Injection Defense(插队) | ✅ 完成(Greshake 攻击理论 + 6 条防御教义 + PVE 架构 + 两轮红队级追问「结构硬/模型软」「锚点搬到动作-意图一致性」+ 免体检直接过) |
 | 14 · Agent Engineering | 22 · Voice Agents: Pipecat, LiveKit | ✅ 完成(延迟预算新尺子 + loop 时序重构 + Pipecat/LiveKit 两路线 + 3/3 体检 + 3 金句) |
-| 14 · Agent Engineering | 23 · OTel GenAI Conventions | ⏭ 下一站 |
+| 14 · Agent Engineering | 23 · OTel GenAI Conventions | ✅ 完成(散落观测需求的统一标准 + 真实生产 trace 逐层拆解(阿里 TPP/deepagent,L01-L23 合影)+ 3/3 体检 + 3 金句) |
+| 14 · Agent Engineering | 24 · Agent Observability Platforms | ⏭ 下一站 |
 
 ## 里程碑
 
-- **Phase 14: 23/42 完成** —— L27 插队完成后回正轨,补 L22(语音,带来"延迟即正确性"第 7 视角)。安全模型 + 6 把尺子 + 延迟预算已立。继续补 L23-L26 后接 L28+
+- **Phase 14: 24/42 完成** —— L23 用用户贴的真实生产 trace 做了逐层拆解(handoff=tool / ReAct×5 / 沙箱 / middleware hooks / checkpoint 粒度 / token 爬坡 / 尾部延迟 全部在一棵树里),概念全部落地到实物。继续 L24(observability 平台)后接 L25-L26、L28+
