@@ -49,8 +49,9 @@ learning-notes/
 | 14 · Agent Engineering | 25 · Multi-agent Debate | ✅ 完成(L05 第三种模式 + Society of Minds + 稀疏拓扑 O(N²)→O(N) + debate 的赌注=独立性 + 3/3 体检 + 3 金句) |
 | 14 · Agent Engineering | 26 · Failure Modes (Agentic) | ✅ 完成(运营篇总账本 + 5 大失败 + 假成功幻觉 + 每步设 gate + 3/3 体检 + 3 金句) |
 | 14 · Agent Engineering | 28 · Orchestration Patterns | ✅ 完成(四拓扑收束 + 升级阶梯 + hop counter=TTL 的 agent 版追问 + topology-first 反模式 + 免体检直接过) |
-| 14 · Agent Engineering | 29 · Production Runtimes | ⏭ 下一站 |
+| 14 · Agent Engineering | 29 · Production Runtimes | ✅ 完成(六种运行时形态 + "形状决定失败能否活下来" + debug case(trace≠checkpoint) + checkpoint invoke 在哪处理 + 免体检直接过) |
+| 14 · Agent Engineering | 30 · Eval-driven Agent Development | ⏭ 下一站(前 30 收官) |
 
 ## 里程碑
 
-- **Phase 14: 28/42 完成** —— L28 把四拓扑收成升级阶梯(单 agent→supervisor→swarm→hierarchical→debate,每档要具体可证伪痛点)。hop counter 追问=IP TTL 的 agent 版。接 L29 production runtime → L30 eval-driven → L31+ Agent Workbench 实战相(Phase 14 收尾段)
+- **Phase 14: 29/42 完成** —— L29 六种运行时形态按"时间×恢复成本"选型;两个实战追问直接对接用户司 deepagents/TPP 生产(trace vs checkpoint 分层、fork-resume 在进程内不靠平台、TPP middleware 挡本地 Studio)。接 L30(评测升为开发方法论,前 30 收官)→ L31+ Agent Workbench 实战相
