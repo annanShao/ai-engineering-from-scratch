@@ -43,7 +43,9 @@ learning-notes/
 | 14 · Agent Engineering | 20 · Benchmarks: WebArena, OSWorld | ✅ 完成(评测另一半:界面操作 + GUI grounding 新失败维度 + 轨迹效率 + 3/3 体检 + 4 金句) |
 | 14 · Agent Engineering | 21 · Computer Use Agents | ✅ 完成(评测→产品闭环 + untrusted input 铁律 + 行动安全 + 5 层防御具体化 + 3/3 体检 + 4 金句) |
 | 14 · Agent Engineering | 27 · Prompt Injection Defense(插队) | ✅ 完成(Greshake 攻击理论 + 6 条防御教义 + PVE 架构 + 两轮红队级追问「结构硬/模型软」「锚点搬到动作-意图一致性」+ 免体检直接过) |
+| 14 · Agent Engineering | 22 · Voice Agents: Pipecat, LiveKit | ✅ 完成(延迟预算新尺子 + loop 时序重构 + Pipecat/LiveKit 两路线 + 3/3 体检 + 3 金句) |
+| 14 · Agent Engineering | 23 · OTel GenAI Conventions | ⏭ 下一站 |
 
 ## 里程碑
 
-- **Phase 14: 22/42 完成** —— L27 破例插队完成,安全钩子(从 L16 挂起)彻底摘除。两轮红队级追问已达"设计防御"而非"辨认防御"层次:独立推出 delimiter injection 攻击、推出"结构能保证边界不被伪造但不能保证模型尊重边界"。待回补 L22-L26(Voice/Observability/Multi-agent/Failure modes)。6 把尺子 + 完整 agent 安全模型已立
+- **Phase 14: 23/42 完成** —— L27 插队完成后回正轨,补 L22(语音,带来"延迟即正确性"第 7 视角)。安全模型 + 6 把尺子 + 延迟预算已立。继续补 L23-L26 后接 L28+
