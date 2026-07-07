@@ -48,8 +48,9 @@ learning-notes/
 | 14 · Agent Engineering | 24 · Agent Observability Platforms | ✅ 完成(三平台押不同生命周期 + "trace 不 eval = 昂贵日志" + LangSmith/第一方 vs 开源第三方追问 + 免体检直接过) |
 | 14 · Agent Engineering | 25 · Multi-agent Debate | ✅ 完成(L05 第三种模式 + Society of Minds + 稀疏拓扑 O(N²)→O(N) + debate 的赌注=独立性 + 3/3 体检 + 3 金句) |
 | 14 · Agent Engineering | 26 · Failure Modes (Agentic) | ✅ 完成(运营篇总账本 + 5 大失败 + 假成功幻觉 + 每步设 gate + 3/3 体检 + 3 金句) |
-| 14 · Agent Engineering | 28 · Orchestration Patterns | ⏭ 下一站(L27 已提前学) |
+| 14 · Agent Engineering | 28 · Orchestration Patterns | ✅ 完成(四拓扑收束 + 升级阶梯 + hop counter=TTL 的 agent 版追问 + topology-first 反模式 + 免体检直接过) |
+| 14 · Agent Engineering | 29 · Production Runtimes | ⏭ 下一站 |
 
 ## 里程碑
 
-- **Phase 14: 27/42 完成** —— L26 把整相翻车点收成产业 risk register;核心"失败是设计缺陷不是模型局限,你不 fix 它你 gate 它"。L27 已提前插学。运营篇(L19-L26)基本完成,接 L28 编排 → L29 production → L30 eval-driven → L31+ Agent Workbench 实战相
+- **Phase 14: 28/42 完成** —— L28 把四拓扑收成升级阶梯(单 agent→supervisor→swarm→hierarchical→debate,每档要具体可证伪痛点)。hop counter 追问=IP TTL 的 agent 版。接 L29 production runtime → L30 eval-driven → L31+ Agent Workbench 实战相(Phase 14 收尾段)
