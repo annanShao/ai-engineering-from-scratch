@@ -46,8 +46,9 @@ learning-notes/
 | 14 · Agent Engineering | 22 · Voice Agents: Pipecat, LiveKit | ✅ 完成(延迟预算新尺子 + loop 时序重构 + Pipecat/LiveKit 两路线 + 3/3 体检 + 3 金句) |
 | 14 · Agent Engineering | 23 · OTel GenAI Conventions | ✅ 完成(散落观测需求的统一标准 + 真实生产 trace 逐层拆解(阿里 TPP/deepagent,L01-L23 合影)+ 3/3 体检 + 3 金句) |
 | 14 · Agent Engineering | 24 · Agent Observability Platforms | ✅ 完成(三平台押不同生命周期 + "trace 不 eval = 昂贵日志" + LangSmith/第一方 vs 开源第三方追问 + 免体检直接过) |
-| 14 · Agent Engineering | 25 · Multi-agent Debate | ⏭ 下一站 |
+| 14 · Agent Engineering | 25 · Multi-agent Debate | ✅ 完成(L05 第三种模式 + Society of Minds + 稀疏拓扑 O(N²)→O(N) + debate 的赌注=独立性 + 3/3 体检 + 3 金句) |
+| 14 · Agent Engineering | 26 · Failure Modes (Agentic) | ⏭ 下一站 |
 
 ## 里程碑
 
-- **Phase 14: 25/42 完成** —— observability 对(L23+L24)通关。L24 追问引出"trace 是 substrate,eval 是上层"分层洞察 + LangSmith=LangChain 第一方闭源版(同构用户司 TPP 平台)。运营篇过半,接 L25(回 agent 能力,换味道)、L26、L28+
+- **Phase 14: 26/42 完成** —— L25 把 debate 定位成 L05 独立性阶梯第三档(没外部真相时用多样性人造独立),核心赌注=这 N 个视角真独立吗。接 L26(失败模式系统化,收 L13/L14/L22/L25 散落翻车点),后 L28+
