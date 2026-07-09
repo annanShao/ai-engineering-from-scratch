@@ -59,9 +59,12 @@ learning-notes/
 | 14 · Agent Engineering | 36 · Scope Contracts | ✅ 完成(scope 契约 + 预防/检测双层 checker 搭出跑通,L33 预见的预防层落地) |
 | 14 · Agent Engineering | 37 · Runtime Feedback Loops | ✅ 完成(feedback runner 搭出跑通,succeeded() 只认 exit 0,治假成功) |
 | 14 · Agent Engineering | 38 · Verification Gates | ✅ 完成(verification gate 搭出跑通,汇流 scope+rules+feedback,fails-closed) |
-| 14 · Agent Engineering | 39 · Reviewer Agent | ⏭ 下一站 |
+| 14 · Agent Engineering | 39 · Reviewer Agent | ✅ 完成(reviewer 搭出跑通,抓住 gate 抓不到的 right-tests-wrong-problem) |
+| 14 · Agent Engineering | 40 · Multi-session Handoff | ⏭ 下一站 |
 
 ## 里程碑
+
+- **Phase 14: 39/42 完成** —— L39 给 lab 加 `reviewer_agent.py`(独立 role,对 diff 只读,5 维 rubric)。demo 灵魂:场景 B gate=passed 但 reviewer soft_fail(验收证明弱化目标+假设没记录)——gate 查"跑了吗",reviewer 查"对吗"。角色分离=信号变。
 
 - **Phase 14: 38/42 完成** —— L38 收口:`verify_agent.py` 把 L33 rules + L36 scope + L37 feedback 汇成一道确定性 fails-closed 门。demo:干净→passed;creep+改测试→4 block→拒绝 done 交人。确定性无 LLM judge(judge 归 reviewer),agent 贿赂不了(读 git 真相+重跑验收)。
 
