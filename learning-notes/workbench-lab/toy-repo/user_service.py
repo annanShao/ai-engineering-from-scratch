@@ -1,15 +1,22 @@
-"""A deliberately under-validated user service.
+"""A user service with input validation on create_user.
 
-This is the 'real repo' the agent works on across L32-L42.
-The standing task: add input validation to create_user WITHOUT breaking
-existing behavior and WITHOUT touching unrelated files.
+Task T1 (done via the workbench): reject empty username, negative age, and
+malformed email, without changing the happy-path behavior.
 """
+import re
 
 users = {}
 
+_EMAIL = re.compile(r"^[^@\s]+@[^@\s]+\.[^@\s]+$")
+
 
 def create_user(username, age, email):
-    # No validation yet — this is the work to be done.
+    if not username:
+        raise ValueError("username must be non-empty")
+    if age < 0:
+        raise ValueError("age must be non-negative")
+    if not _EMAIL.match(email):
+        raise ValueError("email is malformed")
     users[username] = {"age": age, "email": email}
     return users[username]
 

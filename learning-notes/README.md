@@ -61,9 +61,12 @@ learning-notes/
 | 14 · Agent Engineering | 38 · Verification Gates | ✅ 完成(verification gate 搭出跑通,汇流 scope+rules+feedback,fails-closed) |
 | 14 · Agent Engineering | 39 · Reviewer Agent | ✅ 完成(reviewer 搭出跑通,抓住 gate 抓不到的 right-tests-wrong-problem) |
 | 14 · Agent Engineering | 40 · Multi-session Handoff | ✅ 完成(handoff 生成器搭出跑通,cleanup check 当场逮住脏树) |
-| 14 · Agent Engineering | 41 · Workbench for Real Repos | ⏭ 下一站 |
+| 14 · Agent Engineering | 41 · Workbench for Real Repos | ✅ 完成(任务 T1 通过工作台端到端做完,before/after 五指标实测) |
+| 14 · Agent Engineering | 42 · Agent Workbench Capstone | ✅ 完成(整套工作台打包成可一键安装 v1.0.0 pack,installer 实测) |
 
 ## 里程碑
+
+- **🎓🎉 Phase 14 全 42 节通关!(42/42)** —— 理论(L01-L11)+ 框架(L12-L18)+ 运营(L19-L29)+ 评测方法论(L30)+ 实战工作台(L31-L42)全部完成。L41 把 toy-repo 任务 T1 通过工作台端到端做完(before 3 failed → after 5 passed,gate/reviewer/handoff 全绿,creep 反事实被拦)。L42 打包成 `agent-workbench-pack/` v1.0.0 + install.sh(实测装进目标 repo)。核心贯穿:agent 失败多是 workbench bug 不是 model bug;你不 fix 它你 gate 它;术语在变工程不变。可复用资产:`workbench-lab/`(完整工作台)+ `agent-workbench-pack/`(可装 pack)。
 
 - **🎉 Phase 14: 40/42 完成 —— 七个 workbench surface 全部搭齐!** L40 加 `generate_handoff.py`(session-end 生成交接包,7 字段 + next_action 承重 + cleanup check 前置)。真实彩蛋:cleanup 当场逮住未提交的脏树。**workbench-lab 现在是完整工作台:Instructions(L33)+State(L34)+Init(L35)+Scope(L36)+Feedback(L37)+Verification(L38)+Review(L39)+Handoff(L40)。** 剩 L41(真 repo)L42(capstone)。
 

@@ -1,0 +1,42 @@
+{
+  "type": "object",
+  "required": ["schema_version", "active_task_id", "touched_files", "assumptions", "blockers", "next_action"],
+  "properties": {
+    "schema_version": {"type": "integer"},
+    "active_task_id": {"type": "string", "pattern": "^T\\d+$"},
+    "touched_files": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["path", "action"],
+        "properties": {
+          "path": {"type": "string"},
+          "action": {"type": "string", "enum": ["added", "modified", "deleted"]},
+          "summary": {"type": "string"}
+        }
+      }
+    },
+    "assumptions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["claim", "verified"],
+        "properties": {
+          "claim": {"type": "string"},
+          "verified": {"type": "boolean"},
+          "task_id": {"type": "string"}
+        }
+      }
+    },
+    "blockers": {"type": "array"},
+    "next_action": {
+      "type": "object",
+      "required": ["task_id", "step"],
+      "properties": {
+        "task_id": {"type": "string"},
+        "step": {"type": "string"},
+        "kind": {"type": "string"}
+      }
+    }
+  }
+}
