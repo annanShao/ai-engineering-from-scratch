@@ -5,3 +5,4 @@ __pycache__/
 feedback_record.jsonl
 init_report.json
 rule_report.json
+outputs/

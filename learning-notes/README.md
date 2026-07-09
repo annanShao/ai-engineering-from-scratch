@@ -58,9 +58,12 @@ learning-notes/
 | 14 · Agent Engineering | 35 · Initialization Scripts | ✅ 完成(6 探针启动体检搭出跑通 + fail-loud halt 演示) |
 | 14 · Agent Engineering | 36 · Scope Contracts | ✅ 完成(scope 契约 + 预防/检测双层 checker 搭出跑通,L33 预见的预防层落地) |
 | 14 · Agent Engineering | 37 · Runtime Feedback Loops | ✅ 完成(feedback runner 搭出跑通,succeeded() 只认 exit 0,治假成功) |
-| 14 · Agent Engineering | 38 · Verification Gates | ⏭ 下一站 |
+| 14 · Agent Engineering | 38 · Verification Gates | ✅ 完成(verification gate 搭出跑通,汇流 scope+rules+feedback,fails-closed) |
+| 14 · Agent Engineering | 39 · Reviewer Agent | ⏭ 下一站 |
 
 ## 里程碑
+
+- **Phase 14: 38/42 完成** —— L38 收口:`verify_agent.py` 把 L33 rules + L36 scope + L37 feedback 汇成一道确定性 fails-closed 门。demo:干净→passed;creep+改测试→4 block→拒绝 done 交人。确定性无 LLM judge(judge 归 reviewer),agent 贿赂不了(读 git 真相+重跑验收)。
 
 - **Phase 14: 37/42 完成** —— L37 给 lab 加 `run_with_feedback.py`:每命令走 runner,记录 command/stdout/stderr/exit/duration,写盘前 redact,确定性截断。`succeeded()` 只认 exit 0——治 L26 假成功病(agent 不能自称成功,null exit 不许前进)。运行产物入 gitignore。
 
