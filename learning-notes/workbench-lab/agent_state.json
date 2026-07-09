@@ -1,0 +1,8 @@
+{
+  "active_task_id": "T1",
+  "touched_files": [],
+  "assumptions": [],
+  "blockers": [],
+  "next_action": {"task_id": "T1", "step": "read create_user and add guard clauses", "kind": "edit"},
+  "last_updated": "2026-07-09T00:00:00Z"
+}

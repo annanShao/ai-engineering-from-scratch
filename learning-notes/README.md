@@ -52,10 +52,11 @@ learning-notes/
 | 14 · Agent Engineering | 29 · Production Runtimes | ✅ 完成(六种运行时形态 + "形状决定失败能否活下来" + debug case(trace≠checkpoint) + checkpoint invoke 在哪处理 + 免体检直接过) |
 | 14 · Agent Engineering | 30 · Eval-driven Agent Development | ✅ 完成(前 30 收官 + 三层评测 + eval 当代码养(agent 版 TDD)+ Tying Phase 14 together + 3/3 体检 + 3 金句) |
 | 14 · Agent Engineering | 31 · Agent Workbench: Why Models Fail | ✅ 完成(七面/八原语框架 + workbench vs harness 追问 + subagent=worker 解码器 + 免体检直接过) |
-| 14 · Agent Engineering | 32 · Minimal Agent Workbench | ⏭ 下一站 |
+| 14 · Agent Engineering | 32 · Minimal Agent Workbench | ✅ 完成(三文件最小 workbench 搭出并跑通 + agent_state schema 设计评审 + 绑 TPP) |
+| 14 · Agent Engineering | 33 · Instructions as Executable Constraints | ⏭ 下一站 |
 
 ## 里程碑
 
-- **Phase 14: 31/42 完成** —— 实战相(L31-L42)开篇。L31 宣言把前 30 节全部归位:七个 workbench surface 落在八个分布式原语上(术语在变工程不变)。两个解码追问(workbench=harness 的两个视角、subagent=worker 原语)证明已掌握"撕标签→落原语"解码器。接 L32 动手搭三文件最小 workbench。
+- **Phase 14: 32/42 完成** —— 实战相换挡:从"讲+quiz"变成"设计+评审+真搭"(模式①②③混合)。`learning-notes/workbench-lab/` 是逐节累积的真 artifact:L32 搭好三文件最小 workbench(AGENTS.md 路由/agent_state.json 游标/task_board.json 队列),核心 state schema 由用户设计、reviewer 加三处工程锁(关注点分离/board-state 外键分工/assumptions 带 verified)。靶子=under-validated create_user(2 passed/3 xfail)。L33+ 逐节把 surface 加到 lab 上。
 
 - **🎉 Phase 14 前 30 节正式收官(30/42)** —— 理论(L01-L11)+ 框架(L12-L18)+ 运营(L19-L29)+ 评测方法论(L30)全部完成。L30 拱顶石:Phase 14 不是 30 个孤立知识点,是一套可逐条写成 eval、CI 里 gate 的质量标准。已沉淀 6+ 把尺子 + 完整安全模型 + 生产运行时选型 + eval-driven 方法论。**L31-L42 转入 Agent Workbench 实战相:从"学概念"变成"真 repo 上做项目"。**
