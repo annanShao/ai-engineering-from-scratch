@@ -56,9 +56,12 @@ learning-notes/
 | 14 · Agent Engineering | 33 · Instructions as Executable Constraints | ✅ 完成(规则声明+检测器搭出跑通 + "软约束vs硬强制"分层追问 + 归类/check/severity 评审) |
 | 14 · Agent Engineering | 34 · Repo Memory and State | ✅ 完成(schema 校验 + 原子写 StateManager 搭出跑通,拒绝坏写入) |
 | 14 · Agent Engineering | 35 · Initialization Scripts | ✅ 完成(6 探针启动体检搭出跑通 + fail-loud halt 演示) |
-| 14 · Agent Engineering | 36 · Scope Contracts | ⏭ 下一站 |
+| 14 · Agent Engineering | 36 · Scope Contracts | ✅ 完成(scope 契约 + 预防/检测双层 checker 搭出跑通,L33 预见的预防层落地) |
+| 14 · Agent Engineering | 37 · Runtime Feedback Loops | ⏭ 下一站 |
 
 ## 里程碑
+
+- **Phase 14: 36/42 完成** —— L36 兑现用户 L33 的预见:`scope_contract.json`(负空间 forbidden_files + rollback + approvals)+ `scope_checker.py` 双层(预防 is_write_allowed 改前拒 / 检测 scope_check 事后抓 git 真相)。demo:test 文件+off-scope creep 都被拦。两个高度:task 契约 + feature_list(one feature at a time)。
 
 - **Phase 14: 35/42 完成** —— L35 给 lab 加 `init_agent.py`(启动前体检:6 探针,坏了 fail-loud halt exit 1,agent 不启动)。= Trigger 原语 + L33 Startup 类别落地。演示藏 rules 文件→立刻 HALT。
 

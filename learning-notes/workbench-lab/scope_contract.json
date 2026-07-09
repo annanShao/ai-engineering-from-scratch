@@ -1,0 +1,12 @@
+{
+  "task_id": "T1",
+  "goal": "Add input validation to create_user without changing its happy-path behavior",
+  "allowed_files": ["learning-notes/workbench-lab/toy-repo/user_service.py"],
+  "forbidden_files": [
+    "learning-notes/workbench-lab/toy-repo/test_user_service.py",
+    "**/release*.sh"
+  ],
+  "acceptance_criteria": ["python3 -m pytest -q learning-notes/workbench-lab/toy-repo"],
+  "rollback_plan": "git checkout -- learning-notes/workbench-lab/toy-repo/user_service.py",
+  "approvals_required": ["adding any new dependency", "editing test files"]
+}
