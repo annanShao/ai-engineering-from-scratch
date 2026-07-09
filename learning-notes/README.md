@@ -57,9 +57,12 @@ learning-notes/
 | 14 · Agent Engineering | 34 · Repo Memory and State | ✅ 完成(schema 校验 + 原子写 StateManager 搭出跑通,拒绝坏写入) |
 | 14 · Agent Engineering | 35 · Initialization Scripts | ✅ 完成(6 探针启动体检搭出跑通 + fail-loud halt 演示) |
 | 14 · Agent Engineering | 36 · Scope Contracts | ✅ 完成(scope 契约 + 预防/检测双层 checker 搭出跑通,L33 预见的预防层落地) |
-| 14 · Agent Engineering | 37 · Runtime Feedback Loops | ⏭ 下一站 |
+| 14 · Agent Engineering | 37 · Runtime Feedback Loops | ✅ 完成(feedback runner 搭出跑通,succeeded() 只认 exit 0,治假成功) |
+| 14 · Agent Engineering | 38 · Verification Gates | ⏭ 下一站 |
 
 ## 里程碑
+
+- **Phase 14: 37/42 完成** —— L37 给 lab 加 `run_with_feedback.py`:每命令走 runner,记录 command/stdout/stderr/exit/duration,写盘前 redact,确定性截断。`succeeded()` 只认 exit 0——治 L26 假成功病(agent 不能自称成功,null exit 不许前进)。运行产物入 gitignore。
 
 - **Phase 14: 36/42 完成** —— L36 兑现用户 L33 的预见:`scope_contract.json`(负空间 forbidden_files + rollback + approvals)+ `scope_checker.py` 双层(预防 is_write_allowed 改前拒 / 检测 scope_check 事后抓 git 真相)。demo:test 文件+off-scope creep 都被拦。两个高度:task 契约 + feature_list(one feature at a time)。
 
