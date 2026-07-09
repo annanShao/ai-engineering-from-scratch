@@ -60,9 +60,12 @@ learning-notes/
 | 14 · Agent Engineering | 37 · Runtime Feedback Loops | ✅ 完成(feedback runner 搭出跑通,succeeded() 只认 exit 0,治假成功) |
 | 14 · Agent Engineering | 38 · Verification Gates | ✅ 完成(verification gate 搭出跑通,汇流 scope+rules+feedback,fails-closed) |
 | 14 · Agent Engineering | 39 · Reviewer Agent | ✅ 完成(reviewer 搭出跑通,抓住 gate 抓不到的 right-tests-wrong-problem) |
-| 14 · Agent Engineering | 40 · Multi-session Handoff | ⏭ 下一站 |
+| 14 · Agent Engineering | 40 · Multi-session Handoff | ✅ 完成(handoff 生成器搭出跑通,cleanup check 当场逮住脏树) |
+| 14 · Agent Engineering | 41 · Workbench for Real Repos | ⏭ 下一站 |
 
 ## 里程碑
+
+- **🎉 Phase 14: 40/42 完成 —— 七个 workbench surface 全部搭齐!** L40 加 `generate_handoff.py`(session-end 生成交接包,7 字段 + next_action 承重 + cleanup check 前置)。真实彩蛋:cleanup 当场逮住未提交的脏树。**workbench-lab 现在是完整工作台:Instructions(L33)+State(L34)+Init(L35)+Scope(L36)+Feedback(L37)+Verification(L38)+Review(L39)+Handoff(L40)。** 剩 L41(真 repo)L42(capstone)。
 
 - **Phase 14: 39/42 完成** —— L39 给 lab 加 `reviewer_agent.py`(独立 role,对 diff 只读,5 维 rubric)。demo 灵魂:场景 B gate=passed 但 reviewer soft_fail(验收证明弱化目标+假设没记录)——gate 查"跑了吗",reviewer 查"对吗"。角色分离=信号变。
 
