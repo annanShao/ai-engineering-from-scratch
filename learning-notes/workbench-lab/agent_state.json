@@ -1,4 +1,5 @@
 {
+  "schema_version": 1,
   "active_task_id": "T1",
   "touched_files": [],
   "assumptions": [],

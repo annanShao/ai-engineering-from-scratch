@@ -54,9 +54,12 @@ learning-notes/
 | 14 · Agent Engineering | 31 · Agent Workbench: Why Models Fail | ✅ 完成(七面/八原语框架 + workbench vs harness 追问 + subagent=worker 解码器 + 免体检直接过) |
 | 14 · Agent Engineering | 32 · Minimal Agent Workbench | ✅ 完成(三文件最小 workbench 搭出并跑通 + agent_state schema 设计评审 + 绑 TPP) |
 | 14 · Agent Engineering | 33 · Instructions as Executable Constraints | ✅ 完成(规则声明+检测器搭出跑通 + "软约束vs硬强制"分层追问 + 归类/check/severity 评审) |
-| 14 · Agent Engineering | 34 · Repo Memory and State | ⏭ 下一站 |
+| 14 · Agent Engineering | 34 · Repo Memory and State | ✅ 完成(schema 校验 + 原子写 StateManager 搭出跑通,拒绝坏写入) |
+| 14 · Agent Engineering | 35 · Initialization Scripts | ⏭ 下一站 |
 
 ## 里程碑
+
+- **Phase 14: 34/42 完成** —— L34 把 L32 静态 state schema 升级成活记忆系统:`agent_state.schema.json`(锁 pattern/enum/必填)+ `state_manager.py`(JSON Schema 子集校验 + 原子 temp/fsync/replace 写)。demo 跑通:坏写入(enum/pattern 违规)被拒不碰磁盘。核心:坏写入=被拒写入 + 半写比没有更糟(L26 静默损坏)。加速模式(揭秘+建+看)。
 
 - **Phase 14: 33/42 完成** —— L33 给 lab 加了"Instructions"surface:`docs/agent-rules.md`(声明)+ `rule_checker.py`(检测器,读 git 真相抓违规)。用户自撞题眼"规则不也是软的吗"→ 沉淀"声明(软)vs 预防+检测(硬)"四层架构,提前预见 L36 write-tool 预防。检测器 demo 跑通:偷改测试→2 block 违规拒绝。
 
