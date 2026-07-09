@@ -63,6 +63,8 @@ learning-notes/
 | 14 · Agent Engineering | 40 · Multi-session Handoff | ✅ 完成(handoff 生成器搭出跑通,cleanup check 当场逮住脏树) |
 | 14 · Agent Engineering | 41 · Workbench for Real Repos | ✅ 完成(任务 T1 通过工作台端到端做完,before/after 五指标实测) |
 | 14 · Agent Engineering | 42 · Agent Workbench Capstone | ✅ 完成(整套工作台打包成可一键安装 v1.0.0 pack,installer 实测) |
+| 15 · Autonomous Systems | 01 · Long-Horizon Agents | ✅ 完成(METR horizon + 复利数学 99%×70步≈50% + eval-gaming + 3/3 体检) |
+| 15 · Autonomous Systems | 02 · STaR Family | ⏭ 下一站 |
 
 ## 里程碑
 
