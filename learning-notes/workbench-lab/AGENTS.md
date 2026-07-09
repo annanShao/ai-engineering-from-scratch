@@ -5,7 +5,12 @@ Short by design. This file routes; details live in deeper files loaded only when
 Read before acting:
 - **State (where you are):** `agent_state.json`
 - **Task board (what's left):** `task_board.json`
-- **Deep rules:** `docs/agent-rules.md` (added in later lessons; load only when relevant)
+- **Rules (startup, every session):** `docs/agent-rules.md` — checked by `rule_checker.py`
+
+## Enforcement
+Rules are DECLARED in `docs/agent-rules.md` and ENFORCED two ways:
+- Detective (now): `python3 rule_checker.py` reads git-changed files and flags `block` violations.
+- Preventive (L36): the write tool will refuse forbidden/out-of-scope paths before the edit.
 
 ## Verify
 ```

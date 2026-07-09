@@ -53,9 +53,12 @@ learning-notes/
 | 14 · Agent Engineering | 30 · Eval-driven Agent Development | ✅ 完成(前 30 收官 + 三层评测 + eval 当代码养(agent 版 TDD)+ Tying Phase 14 together + 3/3 体检 + 3 金句) |
 | 14 · Agent Engineering | 31 · Agent Workbench: Why Models Fail | ✅ 完成(七面/八原语框架 + workbench vs harness 追问 + subagent=worker 解码器 + 免体检直接过) |
 | 14 · Agent Engineering | 32 · Minimal Agent Workbench | ✅ 完成(三文件最小 workbench 搭出并跑通 + agent_state schema 设计评审 + 绑 TPP) |
-| 14 · Agent Engineering | 33 · Instructions as Executable Constraints | ⏭ 下一站 |
+| 14 · Agent Engineering | 33 · Instructions as Executable Constraints | ✅ 完成(规则声明+检测器搭出跑通 + "软约束vs硬强制"分层追问 + 归类/check/severity 评审) |
+| 14 · Agent Engineering | 34 · Repo Memory and State | ⏭ 下一站 |
 
 ## 里程碑
+
+- **Phase 14: 33/42 完成** —— L33 给 lab 加了"Instructions"surface:`docs/agent-rules.md`(声明)+ `rule_checker.py`(检测器,读 git 真相抓违规)。用户自撞题眼"规则不也是软的吗"→ 沉淀"声明(软)vs 预防+检测(硬)"四层架构,提前预见 L36 write-tool 预防。检测器 demo 跑通:偷改测试→2 block 违规拒绝。
 
 - **Phase 14: 32/42 完成** —— 实战相换挡:从"讲+quiz"变成"设计+评审+真搭"(模式①②③混合)。`learning-notes/workbench-lab/` 是逐节累积的真 artifact:L32 搭好三文件最小 workbench(AGENTS.md 路由/agent_state.json 游标/task_board.json 队列),核心 state schema 由用户设计、reviewer 加三处工程锁(关注点分离/board-state 外键分工/assumptions 带 verified)。靶子=under-validated create_user(2 passed/3 xfail)。L33+ 逐节把 surface 加到 lab 上。
 
