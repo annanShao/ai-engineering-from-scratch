@@ -1,0 +1,551 @@
+<title>Phase 14 · Agent Engineering — 认知图谱</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  :root {
+    --font-serif: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Palatino, Georgia, serif;
+    --font-sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    --font-mono: ui-monospace, "SF Mono", "JetBrains Mono", "Cascadia Code", Menlo, Consolas, monospace;
+
+    /* light (cool teal-biased neutrals, deep teal accent, warm gold for quotes) */
+    --ground: #eef1f1;
+    --surface: #ffffff;
+    --surface-2: #f6f8f8;
+    --ink: #16201f;
+    --ink-soft: #3d4c4a;
+    --muted: #647573;
+    --line: #dbe2e1;
+    --accent: #0b6e6b;
+    --accent-soft: #0b6e6b1a;
+    --gold: #9a6b12;
+    --gold-bg: #9a6b1214;
+    --good: #1f7a4d;
+    --warn: #a8791c;
+    --bad: #b23b3b;
+    --shadow: 0 1px 2px #16201f0d, 0 8px 24px #16201f0a;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --ground: #0d1413;
+      --surface: #131c1b;
+      --surface-2: #0f1716;
+      --ink: #e7edeb;
+      --ink-soft: #b6c4c1;
+      --muted: #7f918e;
+      --line: #23302e;
+      --accent: #4fd1c5;
+      --accent-soft: #4fd1c519;
+      --gold: #e0b148;
+      --gold-bg: #e0b1481a;
+      --good: #4cc38a;
+      --warn: #e0b148;
+      --bad: #e06a6a;
+      --shadow: 0 1px 2px #0006, 0 10px 30px #0004;
+    }
+  }
+  :root[data-theme="light"] {
+    --ground: #eef1f1; --surface: #ffffff; --surface-2: #f6f8f8; --ink: #16201f;
+    --ink-soft: #3d4c4a; --muted: #647573; --line: #dbe2e1; --accent: #0b6e6b;
+    --accent-soft: #0b6e6b1a; --gold: #9a6b12; --gold-bg: #9a6b1214;
+    --good: #1f7a4d; --warn: #a8791c; --bad: #b23b3b; --shadow: 0 1px 2px #16201f0d, 0 8px 24px #16201f0a;
+  }
+  :root[data-theme="dark"] {
+    --ground: #0d1413; --surface: #131c1b; --surface-2: #0f1716; --ink: #e7edeb;
+    --ink-soft: #b6c4c1; --muted: #7f918e; --line: #23302e; --accent: #4fd1c5;
+    --accent-soft: #4fd1c519; --gold: #e0b148; --gold-bg: #e0b1481a;
+    --good: #4cc38a; --warn: #e0b148; --bad: #e06a6a; --shadow: 0 1px 2px #0006, 0 10px 30px #0004;
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+  body {
+    margin: 0; background: var(--ground); color: var(--ink);
+    font-family: var(--font-sans); line-height: 1.6;
+    -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility;
+  }
+
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
+  .col { max-width: 760px; }
+
+  /* eyebrow / labels in mono = the machine layer */
+  .eyebrow {
+    font-family: var(--font-mono); font-size: .72rem; letter-spacing: .16em;
+    text-transform: uppercase; color: var(--accent); font-weight: 600;
+  }
+  code, .mono { font-family: var(--font-mono); font-size: .86em; }
+  code {
+    background: var(--surface-2); padding: .1em .4em; border-radius: 4px;
+    border: 1px solid var(--line); color: var(--ink-soft);
+  }
+
+  h1, h2, h3 { text-wrap: balance; line-height: 1.15; font-weight: 700; }
+  h2 { font-size: clamp(1.5rem, 3.5vw, 2rem); margin: 0; letter-spacing: -.01em; }
+  h3 { font-size: 1.12rem; margin: 0; }
+
+  /* ---- header ---- */
+  header.hero {
+    border-bottom: 1px solid var(--line);
+    background:
+      radial-gradient(120% 80% at 100% 0%, var(--accent-soft), transparent 60%),
+      var(--surface);
+  }
+  .hero-inner { padding: 68px 0 52px; }
+  .hero h1 {
+    font-size: clamp(2.1rem, 6vw, 3.4rem); letter-spacing: -.025em; margin: .3em 0 .1em;
+  }
+  .hero .sub { color: var(--muted); font-size: 1.05rem; max-width: 640px; }
+  .thesis {
+    margin-top: 34px; font-family: var(--font-serif); font-size: clamp(1.2rem, 2.6vw, 1.55rem);
+    line-height: 1.45; color: var(--ink); border-left: 3px solid var(--gold);
+    padding: 6px 0 6px 22px; max-width: 720px; font-style: italic;
+  }
+  .thesis b { font-style: normal; color: var(--accent); font-weight: 700; }
+
+  /* ---- sticky nav ---- */
+  nav.toc {
+    position: sticky; top: 0; z-index: 20; background: color-mix(in srgb, var(--ground) 88%, transparent);
+    backdrop-filter: blur(8px); border-bottom: 1px solid var(--line);
+  }
+  nav.toc .wrap { display: flex; gap: 4px; overflow-x: auto; padding: 10px 24px; }
+  nav.toc a {
+    font-family: var(--font-mono); font-size: .74rem; letter-spacing: .04em; white-space: nowrap;
+    color: var(--muted); text-decoration: none; padding: 6px 11px; border-radius: 6px; transition: color .15s, background .15s;
+  }
+  nav.toc a:hover { color: var(--accent); background: var(--accent-soft); }
+  nav.toc a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+  section { padding: 56px 0; border-bottom: 1px solid var(--line); }
+  .sec-head { margin-bottom: 30px; }
+  .sec-head .eyebrow { display: block; margin-bottom: 10px; }
+  .sec-head p { color: var(--muted); margin: 12px 0 0; max-width: 680px; }
+
+  /* ---- cards ---- */
+  .cards { display: grid; gap: 16px; }
+  @media (min-width: 720px) { .cards.two { grid-template-columns: 1fr 1fr; } }
+  .card {
+    background: var(--surface); border: 1px solid var(--line); border-radius: 12px;
+    padding: 20px 22px; box-shadow: var(--shadow);
+  }
+  .card .tag {
+    font-family: var(--font-mono); font-size: .68rem; letter-spacing: .1em; text-transform: uppercase;
+    color: var(--muted);
+  }
+  .card h3 { margin: 8px 0 6px; }
+  .card p { margin: 0; color: var(--ink-soft); font-size: .95rem; }
+  .card .ask {
+    margin-top: 12px; padding-top: 12px; border-top: 1px dashed var(--line);
+    font-size: .9rem; color: var(--muted);
+  }
+  .card .ask b { color: var(--accent); font-weight: 600; }
+
+  /* ---- golden quote ---- */
+  .quote {
+    border-left: 3px solid var(--gold); background: var(--gold-bg);
+    padding: 16px 20px; border-radius: 0 10px 10px 0; margin: 0;
+  }
+  .quote p {
+    font-family: var(--font-serif); font-size: 1.08rem; line-height: 1.5; margin: 0; color: var(--ink);
+  }
+  .quote .src {
+    display: block; margin-top: 10px; font-family: var(--font-mono);
+    font-size: .72rem; letter-spacing: .04em; color: var(--gold); text-transform: uppercase;
+  }
+  .quotes-grid { display: grid; gap: 16px; }
+  @media (min-width: 720px) { .quotes-grid { grid-template-columns: 1fr 1fr; } }
+
+  /* ---- primitive table ---- */
+  .scroll { overflow-x: auto; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); }
+  table { border-collapse: collapse; width: 100%; font-size: .9rem; }
+  th, td { text-align: left; padding: 11px 14px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  th { font-family: var(--font-mono); font-size: .7rem; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); font-weight: 600; }
+  tr:last-child td { border-bottom: none; }
+  td .mono, td code { color: var(--accent); background: none; border: none; padding: 0; font-weight: 600; }
+
+  /* ---- lesson map ---- */
+  .chapter { margin-bottom: 40px; }
+  .chapter-title { display: flex; align-items: baseline; gap: 14px; margin-bottom: 18px; flex-wrap: wrap; }
+  .chapter-title .rng { font-family: var(--font-mono); font-size: .8rem; color: var(--accent); letter-spacing: .05em; }
+  .chapter-title h3 { font-size: 1.3rem; }
+  .chapter-title .cap { color: var(--muted); font-size: .9rem; }
+  .lesson {
+    display: grid; grid-template-columns: 54px 1fr; gap: 16px; padding: 16px 0; border-top: 1px solid var(--line);
+  }
+  .lesson .code {
+    font-family: var(--font-mono); font-weight: 700; color: var(--accent); font-size: .95rem;
+    font-variant-numeric: tabular-nums;
+  }
+  .lesson .body { min-width: 0; }
+  .lesson h4 { margin: 0 0 3px; font-size: 1rem; }
+  .lesson .origin { font-family: var(--font-mono); font-size: .72rem; color: var(--muted); letter-spacing: .02em; margin-bottom: 8px; }
+  .lesson .line { margin: 0; color: var(--ink-soft); font-size: .93rem; }
+  .lesson .line b { color: var(--ink); font-weight: 600; }
+
+  /* ---- ruler chips / pattern list ---- */
+  .stack { display: grid; gap: 18px; }
+  .pat { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 18px 20px; box-shadow: var(--shadow); }
+  .pat h3 { margin-bottom: 8px; }
+  .pat p { margin: 0; color: var(--ink-soft); font-size: .94rem; }
+  .flow {
+    font-family: var(--font-mono); font-size: .82rem; color: var(--accent); background: var(--surface-2);
+    border: 1px solid var(--line); border-radius: 8px; padding: 10px 12px; margin-top: 12px; overflow-x: auto; white-space: nowrap;
+  }
+
+  .chip {
+    display: inline-block; font-family: var(--font-mono); font-size: .68rem; letter-spacing: .06em;
+    padding: 2px 8px; border-radius: 999px; border: 1px solid var(--line); color: var(--muted); text-transform: uppercase;
+  }
+  .chip.good { color: var(--good); border-color: color-mix(in srgb, var(--good) 40%, var(--line)); }
+  .chip.bad { color: var(--bad); border-color: color-mix(in srgb, var(--bad) 40%, var(--line)); }
+
+  /* interview */
+  .qa { display: grid; gap: 2px; }
+  .qa details {
+    background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 4px 18px; margin-bottom: 10px;
+  }
+  .qa summary {
+    cursor: pointer; padding: 14px 0; font-weight: 600; list-style: none; display: flex; gap: 12px; align-items: flex-start;
+  }
+  .qa summary::-webkit-details-marker { display: none; }
+  .qa summary::before { content: "Q"; font-family: var(--font-mono); color: var(--accent); font-weight: 700; }
+  .qa summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
+  .qa details[open] summary { border-bottom: 1px dashed var(--line); margin-bottom: 12px; }
+  .qa .ans { padding: 0 0 16px 24px; color: var(--ink-soft); font-size: .94rem; }
+  .qa .ans b { color: var(--ink); }
+
+  footer { padding: 44px 0 64px; color: var(--muted); font-size: .85rem; }
+  footer .wrap { display: flex; flex-direction: column; gap: 6px; }
+  a.inline { color: var(--accent); }
+
+  .lead-in { color: var(--ink-soft); max-width: 680px; margin: 0 0 26px; }
+</style>
+
+<header class="hero">
+  <div class="wrap hero-inner">
+    <span class="eyebrow">AI Engineering from Scratch · Phase 14 · 42 lessons</span>
+    <h1>Agent Engineering<br>认知图谱</h1>
+    <p class="sub">从 ReAct 到可安装的工作台 —— 一张用来每日复盘 + 面试自测的地图。概念、由来、金句,三样一起记。</p>
+    <p class="thesis">大多数 agent 失败不是 <b>model bug</b>,是 <b>workbench bug</b>。你不 fix 模型,你 <b>gate</b> 它 —— 在模型的决定和真实世界之间,每一步设一道读外部真相的独立关。术语在变,工程不变。</p>
+  </div>
+</header>
+
+<nav class="toc" aria-label="章节导航">
+  <div class="wrap">
+    <a href="#rulers">7 把尺子</a>
+    <a href="#primitives">8 个原语</a>
+    <a href="#map">42 节精义</a>
+    <a href="#patterns">跨节模式</a>
+    <a href="#security">安全模型</a>
+    <a href="#quotes">金句厅</a>
+    <a href="#interview">面试速答</a>
+  </div>
+</nav>
+
+<main>
+
+<!-- ============ RULERS ============ -->
+<section id="rulers">
+  <div class="wrap">
+    <div class="sec-head col">
+      <span class="eyebrow">Mental models · 可迁移的判断力</span>
+      <h2>7 把尺子</h2>
+      <p>这一相真正给你的不是 42 个知识点,是 7 把能让你"问出之前问不出的问题"的尺子。API 会过期,尺子不会。</p>
+    </div>
+    <div class="cards two">
+      <div class="card">
+        <span class="tag">Ruler 01 · L01–L11 主线</span>
+        <h3>内化 vs 外部</h3>
+        <p>规划/自我批评/反思可以内化进 prompt;但 ground truth 验证、持久记忆、真实执行、时间感、副作用记账,必须外部 —— 再大的模型也修不了。</p>
+        <p class="ask"><b>问:</b>它把 ground truth 锁哪了?记忆怎么过夜?副作用怎么记账?三个答不上,基本是 demo。</p>
+      </div>
+      <div class="card">
+        <span class="tag">Ruler 02 · L12 分水岭</span>
+        <h3>谁拥有控制流图</h3>
+        <p>下一步走哪,工程师写死的是 workflow,模型现场决定的是 agent。光谱:chaining → routing → parallel → orchestrator → eval-opt → agent。</p>
+        <p class="ask"><b>问:</b>看到"每条边都 conditional",立刻知道这是"以为在用 workflow,其实是 full agent 套壳"。</p>
+      </div>
+      <div class="card">
+        <span class="tag">Ruler 03 · L14 换尺子</span>
+        <h3>谁拥有 state</h3>
+        <p>集中 owned(LangGraph:一份共享 state,整图崩)vs 分布 owned(actor:各自私有,单点崩别人继续)。前者是流程可靠性,后者是组织弹性。</p>
+        <p class="ask"><b>问:</b>state 是一份共享的、framework 拥有的,还是 N 份 actor 私有、只靠消息流动的?</p>
+      </div>
+      <div class="card">
+        <span class="tag">Ruler 04 · L15 决胜问</span>
+        <h3>笼子里装什么</h3>
+        <p>那个"创造力孤岛"里,是一个 LLM 用 tools,还是一群 LLM 用人格 riff?一个 → LangGraph node 够;一群 → 才掏 CrewAI Crew。</p>
+        <p class="ask"><b>问:</b>你这问题真需要多个 LLM,还是 1 个 LLM + 多 tools 就够?80% 是后者。</p>
+      </div>
+      <div class="card">
+        <span class="tag">Ruler 05 · L13–L18 光谱</span>
+        <h3>SDK 收什么进黑盒</h3>
+        <p>LangGraph=state-first / CrewAI=role-first / OpenAI=handoff-first / Claude=harness-first / actor=正交。第一方=零配置换锁定;开源第三方=要配置换自由。</p>
+        <p class="ask"><b>问:</b>它把 graph/state/handoff/observation/security 五件事各放在哪一端?</p>
+      </div>
+      <div class="card">
+        <span class="tag">Ruler 06 · L18 价值分层</span>
+        <h3>该爬到栈的哪一层</h3>
+        <p>裸 REST → Client SDK → 轻量 runtime → Agent SDK → 重型框架 → workflow engine。唯一无条件该升的是 0→1;其余每跳都要先掏出痛点。</p>
+        <p class="ask"><b>问:</b>我撞到了什么痛点,所以需要这一层?说不出痛点的升级就是交复杂度智商税。</p>
+      </div>
+      <div class="card">
+        <span class="tag">Ruler 07 · L22 新约束</span>
+        <h3>延迟即正确性</h3>
+        <p>前 21 节可以"慢点没关系,对就行";语音 agent 迟 500ms 用户就重复/挂断 —— 慢本身就是一种错。任何实时 agent 都活在延迟预算里。</p>
+        <p class="ask"><b>问:</b>这条链每个组件加 50–200ms,上线前把整条链加起来了吗?</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PRIMITIVES ============ -->
+<section id="primitives">
+  <div class="wrap">
+    <div class="sec-head col">
+      <span class="eyebrow">The harness layer · 撕掉标签之后</span>
+      <h2>8 个分布式原语 + 解码器</h2>
+      <p>每个流行的 agent buzzword,都是分布式系统早有名字的原语换了个新名字。学会这张表,任何新术语你都能一句话落位。</p>
+    </div>
+    <div class="scroll" style="margin-bottom:22px">
+      <table>
+        <thead><tr><th>原语</th><th>对 agent 承载什么</th><th>你学过的</th></tr></thead>
+        <tbody>
+          <tr><td><span class="mono">Function</span></td><td>tool 调用 / 规则检查 / 验证步 / 模型调用(无状态,用完即走)</td><td>L06 Tool</td></tr>
+          <tr><td><span class="mono">Worker</span></td><td>长活进程,拥有 function + 生命周期 + 私有 state,只靠消息通信</td><td>L14 actor · L17 subagent</td></tr>
+          <tr><td><span class="mono">Trigger</span></td><td>循环 tick / HTTP / 队列 / cron / 文件变化 / hook</td><td>L17 hook · L35 init · L40 handoff</td></tr>
+          <tr><td><span class="mono">Runtime</span></td><td>决定什么在哪跑、超时、资源</td><td>L13 LangGraph runtime</td></tr>
+          <tr><td><span class="mono">HTTP / RPC</span></td><td>tool-call 协议 / MCP 请求 / 模型 API</td><td>L16 handoff · MCP</td></tr>
+          <tr><td><span class="mono">Queue</span></td><td>trigger 与 worker 间的持久缓冲:背压 / 重试 / 幂等</td><td>L14 DLQ · L37 feedback log</td></tr>
+          <tr><td><span class="mono">Persistence</span></td><td>扛过崩溃 / 重启 / 换模型的状态</td><td>L07 MemGPT · L13 checkpointer · L34 state</td></tr>
+          <tr><td><span class="mono">Authz policy</span></td><td>谁能用什么 scope 调什么 function</td><td>L27 PVE · L36 scope contract</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="quote col">
+      <p>subagent = worker(隔离 state + 独立生命周期 + 消息通信),别被"进程还是线程"带走;hook = trigger;Ralph Loop = requeue + persistence;sandbox = compute plane;MCP = worker over RPC。<b>术语在变,工程不变。</b></p>
+      <span class="src">解码器 · L31 Agent Workbench</span>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 42-LESSON MAP ============ -->
+<section id="map">
+  <div class="wrap">
+    <div class="sec-head col">
+      <span class="eyebrow">The whole phase · 逐节精义 + 由来</span>
+      <h2>42 节精义</h2>
+      <p>每节一行:<b>由来</b>(paper / 人 / 年份)+ <b>一句金句</b>。面试被问到任一节,这一行就是你的开场。</p>
+    </div>
+
+    <!-- Chapter A -->
+    <div class="chapter">
+      <div class="chapter-title"><span class="rng">L01–L11</span><h3>理论篇 · agent 的零件</h3><span class="cap">10 个能力 + LLM-in-the-loop 元范式</span></div>
+      <div class="lesson"><div class="code">L01</div><div class="body"><h4>The Agent Loop · ReAct</h4><div class="origin">Yao et al. 2022 — ReAct: Reasoning + Acting</div><p class="line">ReAct 真正的瓶颈不是模型,是 <b>observation formatter</b> —— 你把世界翻译成什么样的文字给模型看,决定了它能不能想清楚。</p></div></div>
+      <div class="lesson"><div class="code">L02</div><div class="body"><h4>ReWOO / Plan-and-Execute</h4><div class="origin">Xu et al. 2023</div><p class="line">ReWOO 冻结计划,Plan-and-Execute 计划可重写 —— 差别就一个 <code>replan(question, plan, evidence)</code> 节点。</p></div></div>
+      <div class="lesson"><div class="code">L03</div><div class="body"><h4>Reflexion · Verbal RL</h4><div class="origin">Shinn et al. 2023</div><p class="line">把"失败"变成下一轮 prompt 的一段 verbal memory —— 不改权重,改上下文。</p></div></div>
+      <div class="lesson"><div class="code">L04</div><div class="body"><h4>Tree of Thoughts / LATS</h4><div class="origin">Yao 2023 · Zhou 2023 · MCTS/UCT</div><p class="line">UCT 的 <code>c</code> 是好奇心调节器:调大更 exploration。Q 值是过去,√(ln N / n) 是未来。</p></div></div>
+      <div class="lesson"><div class="code">L05</div><div class="body"><h4>Self-Refine and CRITIC</h4><div class="origin">Madaan 2023 · Gou 2023</div><p class="line">Self-Refine 是闭环自评;CRITIC 把评分员换成外部工具 —— 幻觉天花板从"模型自身能力"变成"外部 ground truth 精度"。独立性阶梯:<b>外部工具 &gt; 异模型 &gt; 异 prompt &gt; 自评</b>。</p></div></div>
+      <div class="lesson"><div class="code">L06</div><div class="body"><h4>Tool Use &amp; Function Calling</h4><div class="origin">Toolformer, Schick 2023 · BFCL</div><p class="line">tool 出错不该 raise,该把错误塞回 observation 让模型自己看见再改 —— 错误也是一种感知。</p></div></div>
+      <div class="lesson"><div class="code">L07</div><div class="body"><h4>MemGPT / Virtual Context</h4><div class="origin">Packer et al. 2023</div><p class="line">大 context 修不了 dilution,因为 dilution 是<b>注意力行为问题</b>不是容量问题 —— 把 OS 虚拟内存搬来,让模型自己决定哪段 page in。</p></div></div>
+      <div class="lesson"><div class="code">L08</div><div class="body"><h4>Generative Agents · Memory Blocks</h4><div class="origin">Park et al. 2023 (Smallville) · Letta</div><p class="line">记忆三维:Recency / Importance / Relevance,少一维就塌一边。每天 reflect 一次,把流水账压成判断。</p></div></div>
+      <div class="lesson"><div class="code">L09</div><div class="body"><h4>Hybrid Memory · Mem0</h4><div class="origin">Mem0 · fusion scoring</div><p class="line">fusion 用加权和不用分层,因为分层假设维度有绝对优先级 —— 真实场景要"relevance 弱但 recency+importance 高"能被补偿出来。</p></div></div>
+      <div class="lesson"><div class="code">L10</div><div class="body"><h4>Skill Libraries · Voyager</h4><div class="origin">Wang et al. 2023 (TMLR'24) · ZPD Vygotsky 1978</div><p class="line">飞轮 = 刚高于当前能力的任务(最近发展区)+ 可执行 JS 函数库。前者保证有挑战不挫败,后者保证学过的不会忘。</p></div></div>
+      <div class="lesson"><div class="code">L11</div><div class="body"><h4>Planning: HTN &amp; Evolutionary</h4><div class="origin">ChatHTN Gopalakrishnan 2025 · AlphaEvolve Novikov/DeepMind 2025 · MAP-Elites Mouret&amp;Clune 2015</div><p class="line">AlphaEvolve 发现新算法时权重一次没动 —— <b>权重是基因,archive 是文化;它没改基因,改的是文化的传承机制。</b>MAP-Elites 用行为多样性对抗种群塌缩。</p></div></div>
+    </div>
+
+    <!-- Chapter B -->
+    <div class="chapter">
+      <div class="chapter-title"><span class="rng">L12–L18</span><h3>框架篇 · taste 与五家光谱</h3><span class="cap">从"会用零件"到"看穿框架"</span></div>
+      <div class="lesson"><div class="code">L12</div><div class="body"><h4>Anthropic Workflow Patterns</h4><div class="origin">Schluntz &amp; Zhang, Anthropic Dec 2024</div><p class="line"><b>Agent 不是更高级的 workflow,它是"把控制流所有权交给模型"的那个选择</b> —— 这个选择有代价,所以默认从 workflow 开始,让 agent 去挣它的复杂度。</p></div></div>
+      <div class="lesson"><div class="code">L13</div><div class="body"><h4>LangGraph · Stateful Graphs</h4><div class="origin">durable execution · cf. Temporal 2019</div><p class="line">卖点是"state 是一等公民,checkpoint 是默认行为"。checkpoint 太小 → 副作用 exactly-once 靠你自己幂等:LangGraph + 幂等 tool = 穷人版 Temporal。</p></div></div>
+      <div class="lesson"><div class="code">L14</div><div class="body"><h4>AutoGen · Actor Model</h4><div class="origin">AutoGen v0.4 · actor model, Erlang 1986</div><p class="line"><b>Actor 用一条戒律(不许共享内存)同时换来三个工程奢侈品:无锁并发 / 容错隔离 / 透明分布。</b>DLQ = 出错消息不丢不重试不阻塞,挪到角落让人看。</p></div></div>
+      <div class="lesson"><div class="code">L15</div><div class="body"><h4>CrewAI · Role-based Crews</h4><div class="origin">CrewAI · Crew vs Flow</div><p class="line">没发明新机制:把 graph + 多 agent 用"role/goal/backstory"重新打包。Flow 是脊柱(确定),需要创造力那一步嵌 <code>Crew.kickoff()</code>。Hierarchical = 最贵版 supervisor。</p></div></div>
+      <div class="lesson"><div class="code">L16</div><div class="body"><h4>OpenAI Agents SDK</h4><div class="origin">handoff / guardrail / tracing</div><p class="line">handoff = tool:白嫖 LLM 已有的 tool-selection 当 router,不需要专职 supervisor。<b>Output guardrail 能挡愚蠢的攻击,挡不住耐心的攻击。</b></p></div></div>
+      <div class="lesson"><div class="code">L17</div><div class="body"><h4>Claude Agent SDK</h4><div class="origin">harness-first · subagent / hooks</div><p class="line">拿一个已在生产跑两年的 agent(Claude Code)拆开给你。8 个 hook 点位 &gt; OpenAI 3 个 guardrail,因为它暴露的是<b>实际生产用过的</b>点位,不是设计出来的。</p></div></div>
+      <div class="lesson"><div class="code">L18</div><div class="body"><h4>Agno &amp; Mastra · 轻量 Runtime</h4><div class="origin">Agno (Python) · Mastra (TS)</div><p class="line">= L01 ReAct loop + tool registry,写成高性能库,memory 和编排都甩给你。性能崇拜是选型第一大坑:2μs 只对"多短命 agent 高并发"值钱。</p></div></div>
+    </div>
+
+    <!-- Chapter C -->
+    <div class="chapter">
+      <div class="chapter-title"><span class="rng">L19–L30</span><h3>运营篇 · 从"造"到"审"</h3><span class="cap">评测 / 感知 / 观测 / 失败 / 编排 / 方法论</span></div>
+      <div class="lesson"><div class="code">L19</div><div class="body"><h4>Benchmarks: SWE-bench, GAIA</h4><div class="origin">Jimenez ICLR'24 · Mialon 2023 · Goodhart's Law</div><p class="line">SWE-bench 可信因为 evaluator 是确定性测试套件不是 LLM 自评。报 benchmark 不提污染(SWE-bench+ 32.67% 泄漏)= 撒谎。看分布不看均值。</p></div></div>
+      <div class="lesson"><div class="code">L20</div><div class="body"><h4>Benchmarks: WebArena, OSWorld</h4><div class="origin">Zhou ICLR'24 · Xie NeurIPS'24</div><p class="line">GUI grounding 把失败拆成"知道做什么" vs "能不能在屏幕上指对地方"。轨迹效率:顶级 agent 用 1.4–2.7× 人类步数 —— 笨拙藏在步数里不藏在成功率里。</p></div></div>
+      <div class="lesson"><div class="code">L21</div><div class="body"><h4>Computer Use Agents</h4><div class="origin">Claude Oct'24 · OpenAI CUA Jan'25 · Gemini Oct'25</div><p class="line">untrusted input 铁律:屏幕上的字不是命令,只有用户直接指令是。Computer use 把 prompt injection 从信息安全升级成<b>行动安全</b> —— 被劫持会替你按下不可撤销的按钮。</p></div></div>
+      <div class="lesson"><div class="code">L22</div><div class="body"><h4>Voice Agents · Pipecat, LiveKit</h4><div class="origin">~600ms 延迟预算</div><p class="line">不是文本 loop 接 TTS:它重构了 loop 的时序 —— 流式音频、turn detection 是个模型、barge-in 是反向通道。Multimodal vs Pipeline = 延迟换控制。</p></div></div>
+      <div class="lesson"><div class="code">L23</div><div class="body"><h4>OTel GenAI Conventions</h4><div class="origin">OpenTelemetry GenAI SIG</div><p class="line">span 树 = per-step trace + metrics + 轨迹的统一结构。默认不捕获 prose(privacy-by-default),外存+引用。绑标准别绑 vendor 私有命名。</p></div></div>
+      <div class="lesson"><div class="code">L24</div><div class="body"><h4>Observability Platforms</h4><div class="origin">Langfuse / Phoenix / Opik / LangSmith</div><p class="line">trace 是 substrate,eval 是长在上面的一层。只 tracing 不 evaluation = 昂贵的日志。LangSmith = LangChain 第一方闭源版。</p></div></div>
+      <div class="lesson"><div class="code">L25</div><div class="body"><h4>Multi-Agent Debate</h4><div class="origin">Society of Minds, Du et al. ICML 2024</div><p class="line">没有外部 ground truth 时,用多样性人造独立性。全部价值押在"这 N 个视角真独立吗" —— 同 prompt 同模型开 5 个 = 假独立,花 5 倍钱买 0 收益。</p></div></div>
+      <div class="lesson"><div class="code">L26</div><div class="body"><h4>Failure Modes (Agentic)</h4><div class="origin">MASFT, Berkeley 2025</div><p class="line">失败是设计缺陷不是模型局限。Cascading 最阴险:<b>agent 不是崩溃,是自信地假装成功</b>(400 当成功)。解药:成功由外部状态验证,不由 agent 宣布。</p></div></div>
+      <div class="lesson"><div class="code">L27</div><div class="body"><h4>Prompt Injection Defense · PVE</h4><div class="origin">Greshake et al. AISec 2023 · indirect injection</div><p class="line">处理检索来的 prompt = 让攻击者在你 agent 的 tool 面上执行任意代码。防御全在外部:PVE = Prompt-Validator-Executor,锚点是"动作符合用户原意吗"不是"内容可信吗"。</p></div></div>
+      <div class="lesson"><div class="code">L28</div><div class="body"><h4>Orchestration Patterns</h4><div class="origin">supervisor / swarm / hierarchical</div><p class="line">升级阶梯:单 agent → supervisor → swarm → hierarchical → debate,每档要具体可证伪的痛点。handoff drift 用 hop counter(= IP 包 TTL 的 agent 版)。</p></div></div>
+      <div class="lesson"><div class="code">L29</div><div class="body"><h4>Production Runtimes</h4><div class="origin">request/stream/durable/queue/event/cron</div><p class="line">运行时的形状决定哪些失败能活下来。按"时间 × 恢复成本"选。&gt;30s 且不能重启必须上 durable。Observability 是承重墙,不是可选项。</p></div></div>
+      <div class="lesson"><div class="code">L30</div><div class="body"><h4>Eval-Driven Development</h4><div class="origin">Anthropic Hybrid Norm · 拱顶石</div><p class="line">把评测从最后一步提到第一步(agent 版 TDD),eval 分数当合并门禁。每道 guardrail 对应一个 eval case,否则是没测过的死代码。judge 要接 ground truth。</p></div></div>
+    </div>
+
+    <!-- Chapter D -->
+    <div class="chapter">
+      <div class="chapter-title"><span class="rng">L31–L42</span><h3>实战篇 · Agent Workbench</h3><span class="cap">七个 surface,底下八个原语 —— 亲手搭出来</span></div>
+      <div class="lesson"><div class="code">L31</div><div class="body"><h4>Why Capable Models Still Fail</h4><div class="origin">workbench manifesto</div><p class="line">模型没搞错 Python,它搞错了"工作"。<b>大多数 agent 失败故事,是穿着 prompt-engineering 外衣的 workbench 失败。</b>Vercel 删 80% tool → 成功率 80%→100%。</p></div></div>
+      <div class="lesson"><div class="code">L32</div><div class="body"><h4>Minimal Workbench · 三文件</h4><div class="origin">AGENTS.md + state + board</div><p class="line">Long manuals get ignored, short routers get followed。最好的 AGENTS.md ≈ 把模型从 Haiku 升到 Opus,最差的比没有还糟。loop 闭合在 state 文件上,不是 chat 上。</p></div></div>
+      <div class="lesson"><div class="code">L33</div><div class="body"><h4>Instructions as Executable Constraints</h4><div class="origin">rules → checks</div><p class="line">agent-rules.md 是策略声明(软),write-tool authz + verification gate 是强制(硬)。check 读 git 真相不读 agent 自述。</p></div></div>
+      <div class="lesson"><div class="code">L34</div><div class="body"><h4>Repo Memory and State</h4><div class="origin">schema + atomic write</div><p class="line">坏的写入 = 被拒绝的写入。<b>半写的 state 比没有 state 更糟</b> —— 没有 → fail loud;半写 → agent 信一份撒谎的 state。原子 rename 保证读者永远没有撕裂态。</p></div></div>
+      <div class="lesson"><div class="code">L35</div><div class="body"><h4>Initialization Scripts</h4><div class="origin">startup probe · Trigger 原语</div><p class="line">Fail loud, fail fast, fail in one place —— <b>工作台坏了就拒绝启动</b>,不是让 agent 带残缺工作台硬跑。幂等 + 热路径无网络无 LLM。</p></div></div>
+      <div class="lesson"><div class="code">L36</div><div class="body"><h4>Scope Contracts</h4><div class="origin">authorization policy</div><p class="line">negative space(forbidden_files)是契约的一半。预防层(改文件前拒)+ 检测层(事后对 git 抓 creep)。scope creep 从"真诚的一步步"变成"改文件前就被拒"。</p></div></div>
+      <div class="lesson"><div class="code">L37</div><div class="body"><h4>Runtime Feedback Loops</h4><div class="origin">feedback runner · Queue 原语</div><p class="line">No exit, no progress:<code>succeeded()</code> 只认 exit 0。agent 再也没法自称成功,exit code 是唯一裁判。写盘前 redact,确定性截断(错误在 tail)。</p></div></div>
+      <div class="lesson"><div class="code">L38</div><div class="body"><h4>Verification Gates</h4><div class="origin">deterministic gate · fails closed</div><p class="line">一道 agent 贿赂不了的门:读 git 真相 + 重跑验收,不读自述。gate 侧无 LLM judge(judge 归 reviewer)。block 只有人能 override,签名记录。</p></div></div>
+      <div class="lesson"><div class="code">L39</div><div class="body"><h4>Reviewer Agent</h4><div class="origin">separate role · Worker 原语</div><p class="line">acceptance 必要不充分。<b>gate 查"跑了吗",reviewer 查"对吗"</b> —— 抓 gate 抓不到的"right tests, wrong problem"。独立 role(对 diff 只读)= 姿态变信号变。</p></div></div>
+      <div class="lesson"><div class="code">L40</div><div class="body"><h4>Multi-session Handoff</h4><div class="origin">generated packet · Trigger</div><p class="line">生成的不是手写的(手写忙时会跳过)。<code>next_action</code> 是承重字段。cleanup 是独立 check phase —— 脏树上的 handoff 不是 handoff,是转发的烂摊子。</p></div></div>
+      <div class="lesson"><div class="code">L41</div><div class="body"><h4>Workbench for Real Repos</h4><div class="origin">before / after 实证</div><p class="line">同模型同任务,差别不是智能是 surface。五指标:tests_run / acceptance / scope / handoff / reviewer。<b>Harness, not model.</b></p></div></div>
+      <div class="lesson"><div class="code">L42</div><div class="body"><h4>Agent Workbench Capstone</h4><div class="origin">versioned installable pack</div><p class="line">活在 Google Doc + chat + 三个半记得的脚本里的工作台每季度重建一次。解药:版本化 pack + 一键 installer,装进任何 repo。</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PATTERNS ============ -->
+<section id="patterns">
+  <div class="wrap">
+    <div class="sec-head col">
+      <span class="eyebrow">Cross-cutting · 出现在多节的深层结构</span>
+      <h2>跨节模式</h2>
+      <p>这些不是单节知识,是贯穿多节的骨架。看懂它们,42 节从"清单"变成"一根棒子"。</p>
+    </div>
+    <div class="col stack">
+      <div class="pat">
+        <h3>失败三角 · L06 + L13 + L14</h3>
+        <p>和外部世界打交道的 agent,三个最容易出血的点。三件拼齐 = 对"失败"的完整应答。</p>
+        <div class="flow">tool 报错 → 塞回 observation(L06)｜tool 成功但没写就崩 → 幂等 + 台账(L13)｜actor 崩了 → DLQ(L14)</div>
+      </div>
+      <div class="pat">
+        <h3>折叠中间层 · L13 → L14 → L16</h3>
+        <p>同一个老问题的三个答案,行业两年演进轨迹。OpenAI 把它做到极致:handoff = tool,白嫖 LLM 已有的 tool-selection,不要专职 supervisor。</p>
+        <div class="flow">Supervisor LLM(两次调用)→ SelectorGroupChat → handoff = tool(零专职 router)</div>
+      </div>
+      <div class="pat">
+        <h3>LLM-in-the-loop 三个物种 · L11 元范式</h3>
+        <p>看到任何"自进化"系统,先问:它回写到哪?prompt / 代码 / 还是权重?答案决定它是谁的表亲。</p>
+        <div class="flow">A 外部产物(DSPy/AlphaEvolve,权重冻结)｜B 内化权重(STaR/RLAIF)｜C 在线执行循环(Claude Code)</div>
+      </div>
+      <div class="pat">
+        <h3>感知即失败源 · L20 + L22 + L27</h3>
+        <p>文本 agent 没这问题(用户打的字就是字);一旦 agent 要"感知"屏幕/声音,感知误差就是新失败源。跨三个 surface 的同一抽象。</p>
+        <div class="flow">GUI grounding 看错像素(L20)｜STT 听错(L22)｜untrusted 内容当命令(L27)</div>
+      </div>
+      <div class="pat">
+        <h3>你不 fix 它,你 gate 它 · L26 → L31–L42</h3>
+        <p>整个实战相的哲学。agent 不可靠不是要修的 bug,是要围的前提 —— 在模型决定和真实世界之间,每一步设一道读外部真相的独立关。</p>
+        <div class="flow">rules(L33)→ scope(L36)→ feedback(L37)→ gate(L38)→ reviewer(L39)</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SECURITY ============ -->
+<section id="security">
+  <div class="wrap">
+    <div class="sec-head col">
+      <span class="eyebrow">The security model · 皇冠上的一块</span>
+      <h2>Prompt Injection 完整模型</h2>
+      <p>三句话总纲,可以自己推。核心洞察是自己撞出来的:结构硬 / 模型软。</p>
+    </div>
+    <div class="col stack">
+      <div class="quote">
+        <p>结构能保证<b>边界不被伪造</b>(content block + 特殊 token,tokenizer 层不可伪造),但不能保证<b>模型尊重边界</b> —— 前者是密码学级的硬,后者是统计级的软。只要最终是把所有输入揉进注意力的文本模型,"把 untrusted 内容当命令"就永远是非零概率事件。</p>
+        <span class="src">L27 · 地基金句</span>
+      </div>
+      <div class="scroll">
+        <table>
+          <thead><tr><th>层</th><th>是什么</th><th>软/硬</th></tr></thead>
+          <tbody>
+            <tr><td>声明</td><td>agent-rules.md — 人可读 / 可 diff / 可 review 的契约</td><td><span class="chip bad">软</span></td></tr>
+            <tr><td>预防</td><td>write tool 拒写禁止路径(L36)</td><td><span class="chip good">硬</span></td></tr>
+            <tr><td>检测</td><td>rule_checker / verification gate,读 git 真相(L38)</td><td><span class="chip good">硬</span></td></tr>
+            <tr><td>复审</td><td>reviewer 独立姿态(L39)</td><td><span class="chip">中</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="pat">
+        <h3>三句话总纲</h3>
+        <p><b>①</b> 内容全 untrusted —— 标记会漏、模型会上当,别赌。<br>
+        <b>②</b> 安全必须外部 —— 不靠训模型"别上当",靠外部架构兜。<br>
+        <b>③</b> 锚点是动作-意图一致性 —— 不问"内容可信吗",问"这动作符合用户原意吗",在决定和执行之间用独立 validator 卡住。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ QUOTES ============ -->
+<section id="quotes">
+  <div class="wrap">
+    <div class="sec-head col">
+      <span class="eyebrow">Golden quotes · 挂墙上的那几句</span>
+      <h2>金句厅</h2>
+      <p>每一句都对应一个反直觉:不是"再大模型也修不了的事",就是"以为是这样其实是那样"。</p>
+    </div>
+    <div class="quotes-grid">
+      <div class="quote"><p>Agent 不是更高级的 workflow,它是"把控制流所有权交给模型"的那个选择 —— 这个选择有代价,让 agent 去挣它的复杂度。</p><span class="src">L12 · taste 分水岭</span></div>
+      <div class="quote"><p>权重是基因,archive 是文化。AlphaEvolve 没改基因,改的是文化的传承机制。</p><span class="src">L11 · AlphaEvolve</span></div>
+      <div class="quote"><p>大 context 修不了 dilution —— 因为 dilution 是注意力行为问题,不是容量问题。</p><span class="src">L07 · MemGPT</span></div>
+      <div class="quote"><p>Actor 用一条戒律(不许共享内存)同时换来三个工程奢侈品:无锁并发 / 容错隔离 / 透明分布。</p><span class="src">L14 · Actor Model</span></div>
+      <div class="quote"><p>Output guardrail 能挡住愚蠢的攻击,挡不住耐心的攻击。</p><span class="src">L16 · Guardrails</span></div>
+      <div class="quote"><p>结构能保证边界不被伪造,但不能保证模型尊重边界 —— 前者密码学级的硬,后者统计级的软。</p><span class="src">L27 · 自己推出的</span></div>
+      <div class="quote"><p>agent 最危险的失败不是崩溃(看得见),是自信地假装成功(看不见,直到下游炸)。成功由外部状态验证,不由 agent 宣布。</p><span class="src">L26 · Failure Modes</span></div>
+      <div class="quote"><p>大多数 agent 失败故事,是穿着 prompt-engineering 外衣的 workbench 失败。你不 fix 它,你 gate 它。</p><span class="src">L31 · Workbench</span></div>
+      <div class="quote"><p>最好的 AGENTS.md 给的提升 ≈ 把模型从 Haiku 升到 Opus;最差的比没有还糟。</p><span class="src">L32 · 路由器不是手册</span></div>
+      <div class="quote"><p>半写的 state 比没有 state 更糟 —— 没有会 fail loud,半写让 agent 信一份撒谎的 state。</p><span class="src">L34 · Repo Memory</span></div>
+      <div class="quote"><p>gate 查"跑了吗",reviewer 查"对吗"。acceptance 必要不充分。</p><span class="src">L38 + L39</span></div>
+      <div class="quote"><p>术语在变,工程不变。harness 是 function / worker / trigger / runtime / queue / persistence / policy 接对了线。Harness, not model.</p><span class="src">L31 · 解码器</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ INTERVIEW ============ -->
+<section id="interview" style="border-bottom:none">
+  <div class="wrap">
+    <div class="sec-head col">
+      <span class="eyebrow">Quick-fire · 点开自测</span>
+      <h2>面试速答</h2>
+      <p>先自己答,再点开对。答案是"看穿本质"那一档,不是背 API。</p>
+    </div>
+    <div class="col qa">
+      <details><summary>workflow 和 agent 的本质区别?</summary><div class="ans">谁拥有控制流那张图:下一步工程师写死的是 <b>workflow</b>,模型现场决定的是 <b>agent</b>。不是"能不能用 tool / 谁更强"。默认从 workflow 开始,agent 要挣它的复杂度。</div></details>
+      <details><summary>为什么加大 context window 修不了 dilution?</summary><div class="ans">dilution 是<b>注意力行为问题</b>(lost in the middle),不是容量问题。1M 窗口照样塌。解法是外部记忆 + 让模型自己决定 page in(MemGPT)。</div></details>
+      <details><summary>LangGraph checkpointer 和 AlphaEvolve archive 的共同点?</summary><div class="ans">都是<b>把状态外部持久化</b>(内化 vs 外部尺子)。区别:checkpointer 服务崩溃恢复,archive 服务演化采样 —— 形似神不同,别把某一个的用途安到两者头上。</div></details>
+      <details><summary>"handoff = tool" 省掉了什么?</summary><div class="ans">省掉一个<b>专职做路由决策的 LLM</b>。白嫖 LLM 已有的 tool-selection 能力当 router,加新 agent 只需在 tool 列表加一项。这是 L13→L16 "折叠中间层"的极致。</div></details>
+      <details><summary>agent 数小时长跑 + 中途扣款 + 崩了精确断点续 + 扣款不重复,选什么?</summary><div class="ans"><b>Temporal + agent</b>(activity 级重放,exactly-once 原生免费)。LangGraph + 幂等 tool 也能做但"精确断点"做不到(node 级 checkpoint)—— 题眼卡到这么死时最贴切是 Temporal。</div></details>
+      <details><summary>output guardrail 能防 prompt injection 吗?</summary><div class="ans">能挡明显泄露,挡不住编码外泄 / 间接注入 / tool-call 数据外泄。防御要 defense-in-depth 五层,且锚点搬到"<b>动作符合用户原意吗</b>"而非"内容可信吗"(PVE)。</div></details>
+      <details><summary>agent 老出错,该等更强的模型吗?</summary><div class="ans">通常不是。MASFT:失败是<b>设计缺陷不是模型局限</b>。88% 企业 agent 项目死在 runtime 不是 reasoning。答案是补一道缺失的 gate,不是 scale 模型。</div></details>
+      <details><summary>怎么防 agent "假装成功"?</summary><div class="ans">不信 agent 自述,<b>重新探测真实状态</b>验证(它说文件建好了,就去 ls)。成功由外部状态验证,不由 agent 宣布。落地成 <code>succeeded() == (exit_code == 0)</code>。</div></details>
+      <details><summary>subagent 本质是什么?</summary><div class="ans"><b>worker 原语</b>:隔离 state + 独立生命周期 + 只靠消息通信。进程 / 线程 / 新 context window 都是实现变体。它的"拥有自己 state" = 独立 context = 主 agent budget 不被烧。</div></details>
+      <details><summary>选 agent 框架/运行时,你先问什么?</summary><div class="ans">①要不要 agent(还是 workflow 就够)②多动态(谁拥有控制流)③<b>怎么验证对错</b>(外部 ground truth 从哪来)+ 失败/副作用能承受多脏。再叠上"该爬到栈的哪一层"和"匹配你现有 stack"。</div></details>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div><b>Phase 14 · Agent Engineering</b> — 42 lessons · 理论 → 框架 → 运营 → 方法论 → 工作台</div>
+    <div>配套代码:<code>learning-notes/workbench-lab/</code>(完整工作台)· <code>agent-workbench-pack/</code>(可安装 pack)</div>
+    <div style="margin-top:8px">每日复盘:尺子 → 原语 → 精义 → 金句。底层概念与由来不忘。</div>
+  </div>
+</footer>
+
+<script>
+  (function () {
+    // active-section highlight in the sticky nav
+    var links = Array.prototype.slice.call(document.querySelectorAll('nav.toc a'));
+    var map = {};
+    links.forEach(function (a) { map[a.getAttribute('href').slice(1)] = a; });
+    var obs = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        var a = map[e.target.id];
+        if (!a) return;
+        if (e.isIntersecting) {
+          links.forEach(function (l) { l.style.color = ''; l.style.background = ''; });
+          a.style.color = 'var(--accent)'; a.style.background = 'var(--accent-soft)';
+        }
+      });
+    }, { rootMargin: '-45% 0px -50% 0px' });
+    document.querySelectorAll('section[id]').forEach(function (s) { obs.observe(s); });
+  })();
+</script>

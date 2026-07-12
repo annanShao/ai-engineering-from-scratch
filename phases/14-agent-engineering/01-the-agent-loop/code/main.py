@@ -87,6 +87,20 @@ class ToyLLM:
         self.cursor = 0
 
     def respond(self, history: list[Turn]) -> dict[str, Any]:
+        last_action = next(
+            (t for t in reversed(history) if t.kind == "action"), None
+        )
+        if (last_action and last_action.observation
+                and last_action.observation.startswith("error:")):
+            bad_entry = self.script[self.cursor - 1]
+            if "retry_args" in bad_entry:
+                # consume the fix so we retry once; never loop on a bad action
+                fixed = bad_entry.pop("retry_args")
+                return {"kind": "action",
+                        "thought": f"observation was an error; retry "
+                                   f"{bad_entry['action']} with corrected args",
+                        "action": bad_entry["action"],
+                        "args": fixed}
         if self.cursor >= len(self.script):
             return {"kind": "finish", "content": "no more actions"}
         entry = self.script[self.cursor]
@@ -145,7 +159,8 @@ def build_demo_agent() -> AgentLoop:
 
     script: list[dict[str, Any]] = [
         {"kind": "action", "thought": "store the base price",
-         "action": "kv_set", "args": {"key": "base", "value": "120"}},
+         "action": "kv_set", "args": {"key": "base"},
+         "retry_args": {"key": "base", "value": "120"}},
         {"kind": "action", "thought": "compute 15% tax",
          "action": "calculator", "args": {"expr": "120 * 0.15"}},
         {"kind": "action", "thought": "store the tax",

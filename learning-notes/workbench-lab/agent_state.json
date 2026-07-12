@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "active_task_id": "T1",
+  "touched_files": [
+    {"path": "toy-repo/user_service.py", "action": "modified", "summary": "added guard clauses (empty username, negative age, malformed email)"}
+  ],
+  "assumptions": [
+    {"claim": "email uses a simple regex, no DNS/MX check", "verified": false, "task_id": "T1"}
+  ],
+  "blockers": [],
+  "next_action": {"task_id": "T1", "step": "done — awaiting review sign-off", "kind": "review"},
+  "last_updated": "2026-07-09T00:00:00Z"
+}

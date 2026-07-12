@@ -1,0 +1,16 @@
+{
+  "tasks": [
+    {
+      "id": "T1",
+      "goal": "Add input validation to create_user",
+      "owner": "builder",
+      "status": "in_progress",
+      "acceptance": [
+        "test_rejects_empty_username passes",
+        "test_rejects_negative_age passes",
+        "test_rejects_malformed_email passes",
+        "happy-path tests stay green (PASS_TO_PASS)"
+      ]
+    }
+  ]
+}

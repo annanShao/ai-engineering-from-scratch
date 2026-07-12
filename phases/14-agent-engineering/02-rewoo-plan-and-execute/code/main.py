@@ -99,6 +99,18 @@ class ScriptedSolver:
         return self.template.format(**evidence)
 
 
+class ScriptedReplanner:
+    """Fires when a worker errors. Unlike the Planner, it sees the evidence
+    (observations) — that is the single change that turns ReWOO into
+    Plan-and-Execute: observations flow back into planning."""
+
+    def __init__(self, revised_plan: Plan) -> None:
+        self.revised_plan = revised_plan
+
+    def replan(self, question: str, plan: Plan, evidence: dict[str, str]) -> Plan:
+        return self.revised_plan
+
+
 def fake_search(query: str) -> str:
     if "capital of france" in query.lower():
         return "Paris"
@@ -141,6 +153,25 @@ def run_rewoo(question: str, planner: ScriptedPlanner,
                     answer=answer,
                     planner_chars=planner_chars, worker_chars=worker_chars,
                     solver_chars=solver_chars)
+
+
+def run_plan_execute(question: str, planner: ScriptedPlanner,
+                     tools: ToolRegistry, solver: ScriptedSolver,
+                     replanner: ScriptedReplanner, max_replans: int = 1
+                     ) -> tuple[Plan, dict[str, str], str,
+                                list[tuple[int, dict[str, str], list[str]]]]:
+    plan = planner.plan_for(question)
+    evidence: dict[str, str] = {}
+    trace: list[tuple[int, dict[str, str], list[str]]] = []
+    for attempt in range(max_replans + 1):
+        evidence = run_workers(plan, tools)
+        errored = [k for k, v in evidence.items() if v.startswith("error:")]
+        trace.append((attempt, dict(evidence), errored))
+        if not errored or attempt == max_replans:
+            break
+        plan = replanner.replan(question, plan, evidence)
+    answer = solver.solve(question, plan, evidence)
+    return plan, evidence, answer, trace
 
 
 def run_react_mock(question: str, tools: ToolRegistry,
@@ -196,6 +227,37 @@ def main() -> None:
     print(f"  rewoo total  : {rewoo_chars}")
     print(f"  ratio        : {react_chars / max(rewoo_chars, 1):.2f}x")
     print("\npaper claim: ~5x fewer tokens on HotpotQA. toy approximates the shape.")
+
+    print("\n" + "=" * 70)
+    print("PLAN-AND-EXECUTE — ReWOO + a replanner that sees observations")
+    print("=" * 70)
+
+    broken_plan = Plan(steps=[
+        PlanStep("E1", "search", {"query": "capital of France"}),
+        PlanStep("E2", "search", {"q": "population of #E1"}),  # bug: wrong kwarg
+        PlanStep("E3", "round_million", {"text": "#E2"}),
+    ])
+    fixed_plan = Plan(steps=[
+        PlanStep("E1", "search", {"query": "capital of France"}),
+        PlanStep("E2", "search", {"query": "population of #E1"}),
+        PlanStep("E3", "round_million", {"text": "#E2"}),
+    ])
+    pe_planner = ScriptedPlanner(broken_plan)
+    replanner = ScriptedReplanner(fixed_plan)
+    plan, evidence, answer, trace = run_plan_execute(
+        run.question, pe_planner, tools, solver, replanner, max_replans=1)
+
+    for attempt, ev, errored in trace:
+        label = "initial plan" if attempt == 0 else f"replan #{attempt}"
+        print(f"\nEXECUTE ({label})")
+        for k, v in ev.items():
+            print(f"  {k} -> {v}")
+        if errored:
+            print(f"  >> errored nodes: {errored} -> replanner fires "
+                  f"(it sees the evidence; planner never did)")
+        else:
+            print("  >> all clean")
+    print(f"\nFINAL: {answer}")
 
 
 if __name__ == "__main__":

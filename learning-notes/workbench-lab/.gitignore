@@ -1,0 +1,8 @@
+__pycache__/
+.pytest_cache/
+*.pyc
+
+feedback_record.jsonl
+init_report.json
+rule_report.json
+outputs/
